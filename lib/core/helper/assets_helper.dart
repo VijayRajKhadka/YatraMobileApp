@@ -7,6 +7,7 @@ abstract class AssetsHelper{
   static const String loader = "assets/images/penguin.gif";
   static const String trek1 = "assets/images/homeTrek.png";
   static const String food1 = "assets/images/localfood.png";
+  static const String place1 = "assets/images/kirti.png";
 
 
 }
