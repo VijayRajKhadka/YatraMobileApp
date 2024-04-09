@@ -35,6 +35,7 @@ class ReviewServices {
       endpoint = '';
     }
     try {
+      print('${ApiHelper.baseUrl}$endpoint&page=$page');
       final response = await _dio
           .get('${ApiHelper.baseUrl}$endpoint&page=$page');
       if (response.statusCode == 200) {
@@ -101,23 +102,23 @@ class ReviewServices {
 
   }
 
-  Future<int> postRate(int id, double rate,
+  Future<int> postRate(int id, double rate, String type,
       {bool isTrek = false,
         isPlace = false,
         isRestaurant = false,
         isHistoricalPlace = false}) async {
     String endpoint;
-    String type;
-    if (isTrek) {
+    if (type=='trek') {
       endpoint = 'addTrekFeedback?trek=$id';
-      type = 'trek_id';
-    } else if (isPlace) {
+      type='trek_id';
+    } else if (type=='place') {
       endpoint = 'addPlaceFeedback?place=$id';
-      type = 'place_id';
-    } else if (isRestaurant) {
+      type='place_id';
+    } else if (type=='restaurant') {
       endpoint = 'addRestaurantFeedback?restaurant=$id';
-      type = 'restaurant_id';
-    } else if (isHistoricalPlace) {
+      type='restaurant_id';
+
+    } else if (type=='historicalPlace') {
       endpoint = 'addHistoricalPlacesFeedback?restaurant=$id';
       type = 'historicalPLace_id';
     }

@@ -31,7 +31,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(const Duration(milliseconds: 2000));
-            ref.refresh(viewModel.trekServices.trekProvider);
+            ref.refresh(viewModel.trekServices.trekProvider(''));
             ref.refresh(viewModel.trekServices.trekDetailProvider(trekModel.trekId));
             viewModel.pagingController.refresh();
           },
@@ -39,7 +39,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
-              title: Text(trekModel.name, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
+              title: Text(trekModel.name, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
               actions: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.star,size:32,color: Colors.orangeAccent,), // Your trailing icon
@@ -47,7 +47,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return  SliderDialog(id: trekModel.trekId);
+                        return  SliderDialog(id: trekModel.trekId,isType: 'trek',);
                       },
                     );
                   },

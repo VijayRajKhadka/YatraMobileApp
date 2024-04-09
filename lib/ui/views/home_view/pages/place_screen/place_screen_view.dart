@@ -16,7 +16,7 @@ class PlaceView extends StackedView<PlaceScreenViewModel>{
     final screenWidth = MediaQuery.of(context).size.width;
 
     return  Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
-      final trekProvider = ref.watch(viewModel.placeServices.placeProvider);
+      final placeProvider = ref.watch(viewModel.placeServices.placeProvider);
 
       return RefreshIndicator(onRefresh: () async {
         await Future.delayed(const Duration(milliseconds: 2000));
@@ -27,7 +27,7 @@ class PlaceView extends StackedView<PlaceScreenViewModel>{
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color(0xFF9DD5F5),
-            title: const Text("EXPLORE TREK", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+            title: const Text("EXPLORE PLACE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               color: Colors.white,
@@ -38,14 +38,14 @@ class PlaceView extends StackedView<PlaceScreenViewModel>{
             ),
           ),
           body: SingleChildScrollView(
-            child: trekProvider.when(
+            child: placeProvider.when(
               data: (List<PlaceModel> data) {
                 return Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(10),
@@ -61,7 +61,7 @@ class PlaceView extends StackedView<PlaceScreenViewModel>{
                                 ),
                                 controller: viewModel.search,
                                 onChanged: (query) {
-
+                                  viewModel.fetchPage(1);
                                 },
                               ),
                             ),
@@ -81,11 +81,11 @@ class PlaceView extends StackedView<PlaceScreenViewModel>{
                         return InkWell(
                           onTap: () => viewModel.goToPlace(data[index]),
                           child: TrekPageCardView(
-                            data[index].name,
-                            data[index].placeImages[0].placeImagePath,
-                            data[index].avgRating,
-                            data[index].location,
-                            data[index].category,
+                            name: data[index].name,
+                            imagePath: data[index].placeImages[0].placeImagePath,
+                            rating: data[index].avgRating,
+                            location: data[index].location,
+                            category: data[index].category,
                           ),
                         );
                       },
@@ -94,7 +94,6 @@ class PlaceView extends StackedView<PlaceScreenViewModel>{
                 );
               },
               error: (Object error, StackTrace stackTrace) {
-                print(stackTrace);
                 return Center(
                   child: Text("$error"),
                 );

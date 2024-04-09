@@ -63,7 +63,7 @@ class PlaceDetailsViewModel extends BaseViewModel{
       EasyLoading.show(
           indicator: Image.asset(AssetsHelper.loader, width: 50, height: 50,),
           status: 'Posting...');
-      reviewServices.postRate(placeId, rate!, isPlace: true).then((value) {
+      reviewServices.postRate(placeId, rate!,'place').then((value) {
         if (value == 1) {
           pagingController.refresh();
           EasyLoading.dismiss();

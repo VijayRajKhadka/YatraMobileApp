@@ -59,7 +59,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return SliderDialog(id: placeModel.placeId);
+                        return SliderDialog(id: placeModel.placeId, isType: 'place',);
                       },
                     );
                   },
@@ -218,25 +218,41 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Altitude',
-                                                style: TextStyle(
-                                                    fontSize: 23,
-                                                    fontWeight:
+                                             Row(
+                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    'Open-Time',
+                                                    style: TextStyle(
+                                                        fontSize: 23,
+                                                        fontWeight:
                                                         FontWeight.bold),
-                                              ),
+                                                  ),
+
+                                                ),
+                                                Padding(
+                                                    padding:
+                                                    const EdgeInsets.only(right: 8.0),
+                                                    child: ElevatedButton(
+
+                                                      onPressed: (){},
+                                                      child: Text("Explore Map"),
+                                                    )
+                                                ),
+
+                                              ],
                                             ),
                                             Row(
                                               children: [
                                                 const SizedBox(width: 8),
                                                 // Adjust as needed
                                                 const Icon(
-                                                    Icons.height_outlined,
+                                                    Icons.access_time_outlined,
                                                     size: 20),
                                                 Text(
-                                                  data.latitude??data.latitude!,
+                                                  data.openTime,
                                                   style: const TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:
@@ -249,7 +265,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                             const Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Text(
-                                                'Trip Duration',
+                                                'How To Get There',
                                                 style: TextStyle(
                                                     fontSize: 23,
                                                     fontWeight:
@@ -259,117 +275,31 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 12.0, bottom: 8.0),
-                                              child: Row(
-                                                children: [
-                                                  const Icon(
-                                                      Icons
-                                                          .calendar_today_outlined,
-                                                      size: 20),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 5.0),
-                                                    child: Text(
-                                                      data.longitude??data.longitude!,
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  )
-                                                ],
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.only(
+                                                        left: 5.0),
+                                                child: Text(
+                                                  data.getThere,
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      ),
+                                                ),
                                               ),
                                             ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10.0, left: 8.0),
-                                              child: Text(
-                                                'Budget Range',
-                                                style: TextStyle(
-                                                    fontSize: 23,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: [
-                                                  const Icon(
-                                                      Icons
-                                                          .monetization_on_outlined,
-                                                      size: 20),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 8.0),
-                                                    child: Text(
-                                                      'NRs.${data.openTime}',
-                                                      style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+
                                           ],
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: InkWell(
-                                          onTap: () {},
-                                          child: SizedBox(
-                                              width: screenWidth * 0.2,
-                                              height: screenHeight * 0.3,
-                                              child: SizedBox()),
-                                        ),
-                                      ),
-                                    ),
+
                                   ],
-                                ),
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 10.0, left: 8.0),
-                                  child: Text(
-                                    'Emergency Number',
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.phone_in_talk_outlined,
-                                          size: 20),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          data.longitude??data.longitude!,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
                               ],
                             );
                           },
                           error: (error, stackTrace) {
-                            print(error.toString());
-                            print(stackTrace);
+
                             return const Text("Sorry");
                           },
                           loading: () {
@@ -432,6 +362,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                             Expanded(
                               flex: 4,
                               child: TextField(
+                                controller: viewModel.reviewController,
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
                                     icon: const Icon(Icons.send),

@@ -3,7 +3,7 @@ class TrekModel {
   final String name;
   final String location;
   final String category;
-  final String createdAt;
+  final String createdAt; // Make these fields nullable
   final double avgRating;
   final List<TrekImageModel> trekImages;
 
@@ -66,8 +66,8 @@ class TrekDetailsModel {
   final String mapUrl;
   final String budgetRange;
   final int approve;
-  final String createdAt;
-  final String updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final List<TrekImageModel> trekImages;
 
   TrekDetailsModel({
@@ -83,8 +83,8 @@ class TrekDetailsModel {
     required this.mapUrl,
     required this.budgetRange,
     required this.approve,
-    required this.createdAt,
-    required this.updatedAt,
+     this.createdAt,
+    this.updatedAt,
     required this.trekImages,
   });
 

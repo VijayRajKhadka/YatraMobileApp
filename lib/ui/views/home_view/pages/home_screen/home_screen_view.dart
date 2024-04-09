@@ -22,14 +22,14 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final trekProvider = ref.watch(viewModel.trekServices.trekProvider);
+        final trekProvider = ref.watch(viewModel.trekServices.trekProvider(''));
         final restaurantProvider = ref.watch(viewModel.restaurantServices.restaurantProvider);
         final placeProvider = ref.watch(viewModel.placeServices.placeProvider);
 
         return Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
-              ref.refresh(viewModel.trekServices.trekProvider);
+              ref.refresh(viewModel.trekServices.trekProvider(''));
               ref.refresh(viewModel.restaurantServices.restaurantProvider);
               ref.refresh(viewModel.placeServices.placeProvider);
 

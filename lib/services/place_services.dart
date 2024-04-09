@@ -29,7 +29,7 @@ class PlaceServices {
         }
         return resList;
       } else {
-        throw Exception('Failed to load palce data');
+        throw Exception('Failed to load place data');
       }
     } catch (e) {
 
@@ -37,11 +37,12 @@ class PlaceServices {
     }
   }
 
-  Future<List<PlaceModel>> getPaginatingData({int page = 1}) async {
+  Future<List<PlaceModel>> getPaginatingData(String query,{int page = 1}) async {
     try {
-      final response = await _dio.get('${ApiHelper.baseUrl}place?page$page');
+      final response = await _dio.get('${ApiHelper.baseUrl}place${query.isNotEmpty ? '?search=$query' : ''}${query.isNotEmpty && page != null ? '&' : ''}${page != null ? 'page=$page' : ''}');
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['data']['data'];
+        print(response.data);
         List<PlaceModel> resList = [];
         for(Map<String, dynamic>  data in data){
           PlaceModel model = PlaceModel.fromJson(data);
@@ -49,7 +50,7 @@ class PlaceServices {
         }
         return resList;
       } else {
-        throw Exception('Failed to load palce data');
+        throw Exception('Failed to load place data');
       }
     } catch (e) {
 
@@ -58,9 +59,7 @@ class PlaceServices {
   }
 
   Future<PlaceDetailsModel> getPlaceDetails(int placeID) async {
-    print('${ApiHelper.baseUrl}placeDetails?place=$placeID');
     try {
-
       final response = await _dio.get('${ApiHelper.baseUrl}placeDetails?place=$placeID');
       print('${ApiHelper.baseUrl}placeDetails?place=$placeID');
       if (response.statusCode == 200) {

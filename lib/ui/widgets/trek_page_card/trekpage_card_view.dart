@@ -11,14 +11,14 @@ class TrekPageCardView extends StatelessWidget {
   final String location;
   final String category;
 
-  const TrekPageCardView(
-      this.name,
-      this.imagePath,
-      this.rating,
-      this.location,
-      this.category, {
-        Key? key,
-      }) : super(key: key);
+  const TrekPageCardView({super.key,
+      required this.name,
+      required this.imagePath,
+      required this.rating,
+      required this.location,
+      required this.category,
+
+      });
 
   @override
   Widget build(BuildContext context) {

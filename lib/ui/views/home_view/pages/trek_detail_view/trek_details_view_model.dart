@@ -63,7 +63,7 @@ class TrekDetailsViewModel extends BaseViewModel{
       EasyLoading.show(
           indicator: Image.asset(AssetsHelper.loader, width: 50, height: 50,),
           status: 'Posting...');
-      reviewServices.postRate(trekId, rate!, isTrek: true).then((value) {
+      reviewServices.postRate(trekId, rate!, 'trek').then((value) {
         if (value == 1) {
           pagingController.refresh();
           EasyLoading.dismiss();

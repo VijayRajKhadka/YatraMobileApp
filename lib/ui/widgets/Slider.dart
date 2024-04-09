@@ -5,9 +5,10 @@ import 'package:yatra/services/review_services.dart';
 import '../../app/app.locator.dart';
 
 class SliderDialog extends StatefulWidget {
-  const SliderDialog({super.key, required this.id});
+  const SliderDialog({super.key, required this.id, required this.isType});
 
   final int id;
+  final String isType;
   @override
   _SliderDialogState createState() => _SliderDialogState();
 }
@@ -50,7 +51,7 @@ class _SliderDialogState extends State<SliderDialog> {
       actions: [
 
         ElevatedButton(
-          onPressed: ()=> postRating(widget.id,),
+          onPressed: ()=> postRating(widget.id,widget.isType),
           child: const Text('Rate'),
         ),
 
@@ -58,8 +59,8 @@ class _SliderDialogState extends State<SliderDialog> {
     );
   }
 
-  postRating(id){
-    _reviewServices.postRate(id, _sliderValue, isTrek: true).then((value){
+  postRating(id, isType){
+    _reviewServices.postRate(id, _sliderValue, isType).then((value){
       if(value==1){
         _sliderValue=0;
         Navigator.of(context).pop();
@@ -68,6 +69,7 @@ class _SliderDialogState extends State<SliderDialog> {
         EasyLoading.showToast("Sorry, Failed");
       }
     }).onError((error, stackTrace) {
+      print(error.toString());
       EasyLoading.showToast("Pheri Hal");
     });
 
