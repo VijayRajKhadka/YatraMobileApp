@@ -17,10 +17,26 @@ class ReviewServices {
       LocalStorageService>();
 
 
-  Future<List<ReviewModel>> getReviewData(int trekId, {int page = 1}) async {
+  Future<List<ReviewModel>> getReviewData(int id, {int page = 1,bool isTrek = false,
+    isPlace = false,
+    isRestaurant = false,
+    isHistoricalPlace = false}) async {
+    String endpoint;
+    if (isTrek) {
+      endpoint = 'trekReview?trek=$id';
+    } else if (isPlace) {
+      endpoint = 'placeReview?place=$id';
+    } else if (isRestaurant) {
+      endpoint = 'restaurantReview?restaurant=$id';
+    } else if (isHistoricalPlace) {
+      endpoint = 'historicalPlacesReview?restaurant=$id';
+    }
+    else {
+      endpoint = '';
+    }
     try {
       final response = await _dio
-          .get('${ApiHelper.baseUrl}trekReview?trek=$trekId&page=$page');
+          .get('${ApiHelper.baseUrl}$endpoint&page=$page');
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['data']['data'];
         List<ReviewModel> resList = [];

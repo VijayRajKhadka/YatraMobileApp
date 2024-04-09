@@ -6,6 +6,7 @@ import 'package:yatra/services/restaurant_services.dart';
 import 'package:yatra/services/trek_services.dart';
 
 import '../../../../../app/app.locator.dart';
+import '../../../../../model/place_model.dart';
 import '../../../../../services/place_services.dart';
 
 class HomeScreenViewModel extends BaseViewModel {
@@ -16,5 +17,19 @@ class HomeScreenViewModel extends BaseViewModel {
 
   goToTrek(TrekModel trekModel) {
     navigationService.navigateToTrekDetailsView(trekModel: trekModel);
+  }
+  goToPlace(PlaceModel placeModel){
+    navigationService.navigateToPlaceDetailView(placeModel: placeModel);
+
+  }
+
+  goToTrekScreen(){
+    navigationService.navigateToTrekView();
+  }
+  goToPlaceScreen(){
+    navigationService.navigateToPlaceView();
+  }
+  goToRestaurantScreen(){
+
   }
 }

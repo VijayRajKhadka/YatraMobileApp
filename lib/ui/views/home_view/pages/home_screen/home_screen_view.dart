@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stacked/stacked.dart';
@@ -92,13 +93,16 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                   height: screenHeight * 0.35,
                 ),
                 Stack(alignment: Alignment.center, children: [
-                  ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                        Colors.white.withOpacity(0.2), BlendMode.srcOver),
-                    // Adjust opacity here
-                    child: Image.asset(AssetsHelper
-                        .trek1), // Replace 'assets/image.png' with your image path
-                  ),
+                  CachedNetworkImage(imageUrl:AssetsHelper
+                      .homeImg3,
+                      width: screenWidth,
+                      height: screenHeight * 0.50,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Image.asset(
+                        AssetsHelper.logo,
+                        width: screenWidth * 1,
+                        height: screenHeight * 0.50,
+                      )),
                   Column(
                     children: [
                       const Text(
@@ -137,12 +141,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 // Your existing widgets
                 Container(
                   color: Colors.grey,
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Trek',
                           style: TextStyle(
                               fontSize: 25,
@@ -150,12 +154,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                               color: Colors.white),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: InkWell(
-                              child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 27,
+                              child: IconButton(
+                            icon:const Icon(Icons.arrow_forward_ios_outlined,size: 27,),
                             color: Colors.white,
+                                onPressed:viewModel.goToTrekScreen,
                           )),
                         )
                       ],
@@ -193,13 +197,16 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                   }),
                 ),
                 Stack(alignment: Alignment.center, children: [
-                  ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                        Colors.white.withOpacity(0.2), BlendMode.srcOver),
-                    // Adjust opacity here
-                    child: Image.asset(AssetsHelper
-                        .food1), // Replace 'assets/image.png' with your image path
-                  ),
+                  CachedNetworkImage(imageUrl:AssetsHelper
+                      .homeImg2,
+                      width: screenWidth,
+                      height: screenHeight * 0.50,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Image.asset(
+                        AssetsHelper.logo,
+                        width: screenWidth * 1,
+                        height: screenHeight * 0.50,
+                      )),
                   Column(
                     children: [
                       const Text(
@@ -237,12 +244,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ]),
                 Container(
                   color: Colors.grey,
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Food',
                           style: TextStyle(
                               fontSize: 25,
@@ -250,12 +257,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                               color: Colors.white),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: InkWell(
-                              child: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            size: 27,
-                            color: Colors.white,
+                              child: IconButton(
+                            icon:const Icon(Icons.arrow_forward_ios_outlined,size: 27,),
+
+                            color: Colors.white, onPressed:viewModel.goToRestaurantScreen,
                           )),
                         )
                       ],
@@ -291,13 +298,16 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                   }),
                 ),
                 Stack(alignment: Alignment.center, children: [
-                  ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                        Colors.white.withOpacity(0.2), BlendMode.srcOver),
-                    // Adjust opacity here
-                    child: Image.asset(AssetsHelper
-                        .place1), // Replace 'assets/image.png' with your image path
-                  ),
+                  CachedNetworkImage(imageUrl:AssetsHelper
+                      .homeImg1,
+                       width: screenWidth,
+                        height: screenHeight * 0.50,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Image.asset(
+                        AssetsHelper.logo,
+                        width: screenWidth * 1,
+                        height: screenHeight * 0.50,
+                      )),
                   Column(
                     children: [
                       const Text(
@@ -335,12 +345,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ]),
                 Container(
                   color: Colors.grey,
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Places',
                           style: TextStyle(
                               fontSize: 25,
@@ -348,12 +358,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                               color: Colors.white),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: 8.0),
+                          padding: const EdgeInsets.only(right: 8.0),
                           child: InkWell(
-                              child: Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 27,
-                                color: Colors.white,
+                              child: IconButton(
+                                icon:const Icon(Icons.arrow_forward_ios_outlined,size: 27,),
+
+                                color: Colors.white, onPressed:viewModel.goToPlaceScreen,
                               )),
                         )
                       ],
@@ -369,12 +379,15 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                           scrollDirection: Axis.horizontal,
                           itemCount: data.length > 5 ? 5 : data.length,
                           itemBuilder: (context, index) {
-                            return HomePageCardView(
-                                data[index].name,
-                                data[index].placeImages[0].placeImagePath,
-                                data[index].avgRating,
-                                data[index].location,
-                                data[index].category);
+                            return InkWell(
+                              onTap:()=> viewModel.goToPlace(data[index]),
+                              child: HomePageCardView(
+                                  data[index].name,
+                                  data[index].placeImages[0].placeImagePath,
+                                  data[index].avgRating,
+                                  data[index].location,
+                                  data[index].category),
+                            );
                           },
                         );
                       }, error: (Object error, StackTrace stackTrace) {

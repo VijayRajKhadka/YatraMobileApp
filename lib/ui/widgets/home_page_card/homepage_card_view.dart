@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:yatra/core/helper/assets_helper.dart';
 import 'package:yatra/ui/widgets/home_page_card/homepage_card_view_model.dart';
 
 class HomePageCardView extends StackedView<HomePageCardViewModel> {
@@ -35,12 +37,16 @@ class HomePageCardView extends StackedView<HomePageCardViewModel> {
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
               ),
-              child: Image.network(
-                imagePath,
-                fit: BoxFit.cover,
-                width: screenWidth *1,
-                height: screenHeight * 0.18,
-              ),
+              child: CachedNetworkImage(
+                  imageUrl: imagePath,
+                  fit: BoxFit.cover,
+                  width: screenWidth * 1,
+                  height: screenHeight * 0.18,
+                  placeholder: (context, url) => Image.asset(
+                        AssetsHelper.logo,
+                        width: screenWidth * 1,
+                        height: screenHeight * 0.18,
+                      )),
             ),
             const SizedBox(height: 8),
             Padding(
@@ -63,7 +69,6 @@ class HomePageCardView extends StackedView<HomePageCardViewModel> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -74,7 +79,7 @@ class HomePageCardView extends StackedView<HomePageCardViewModel> {
                   Row(
                     children: List.generate(
                       rating.toInt(),
-                          (index) => const Icon(
+                      (index) => const Icon(
                         Icons.star,
                         color: Colors.orangeAccent,
                         size: 18,

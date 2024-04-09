@@ -2,52 +2,64 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
-import 'package:yatra/ui/widgets/review_card/review_card_view.dart';
+import 'package:yatra/ui/views/home_view/pages/place_detail_view/place_details_view_model.dart';
+
 import '../../../../../core/helper/assets_helper.dart';
 import '../../../../../core/helper/date_time_helper.dart';
-import '../../../../../model/trek_model.dart';
+import '../../../../../model/place_model.dart';
 import '../../../../widgets/Slider.dart';
-import 'trek_details_view_model.dart';
+import '../../../../widgets/review_card/review_card_view.dart';
 
-class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
-  final TrekModel trekModel;
+class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
+  final PlaceModel placeModel;
 
-  const TrekDetailsView({required this.trekModel, super.key});
+  const PlaceDetailView(this.placeModel, {super.key});
 
   @override
   Widget builder(
-      BuildContext context, TrekDetailsViewModel viewModel, Widget? child) {
+      BuildContext context, PlaceDetailsViewModel viewModel, Widget? child) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final trekDetailProvider = ref
-            .watch(viewModel.trekServices.trekDetailProvider(trekModel.trekId));
+        final placeDetailProvider = ref.watch(
+            viewModel.placeServices.placeDetailProvider(placeModel.placeId));
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(const Duration(milliseconds: 2000));
-            ref.refresh(viewModel.trekServices.trekProvider);
-            ref.refresh(viewModel.trekServices.trekDetailProvider(trekModel.trekId));
+            ref.refresh(viewModel.placeServices.placeProvider);
+            ref.refresh(viewModel.placeServices
+                .placeDetailProvider(placeModel.placeId));
             viewModel.pagingController.refresh();
           },
           child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
-              title: Text(trekModel.name, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
+              title: Text(
+                placeModel.name,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
               actions: <Widget>[
                 IconButton(
-                  icon: const Icon(Icons.star,size:32,color: Colors.orangeAccent,), // Your trailing icon
+                  icon: const Icon(
+                    Icons.star,
+                    size: 32,
+                    color: Colors.orangeAccent,
+                  ),
+                  // Your trailing icon
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return  SliderDialog(id: trekModel.trekId);
+                        return SliderDialog(id: placeModel.placeId);
                       },
                     );
                   },
@@ -62,7 +74,6 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                   Navigator.of(context).pop();
                 },
               ),
-
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -83,19 +94,19 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                         pauseAutoPlayOnTouch: true,
                         enlargeCenterPage: false,
                       ),
-                      items: trekModel.trekImages.map((image) {
+                      items: placeModel.placeImages.map((image) {
                         return Builder(
                           builder: (BuildContext context) {
                             return CachedNetworkImage(
-                                imageUrl: image.trekImagePath,
+                                imageUrl: image.placeImagePath,
                                 fit: BoxFit.cover,
                                 width: screenWidth * 1,
                                 height: screenHeight * 0.3,
                                 placeholder: (context, url) => Image.asset(
-                                  AssetsHelper.logo,
-                                  width: screenWidth * 1,
-                                  height: screenHeight * 0.3,
-                                ));
+                                      AssetsHelper.logo,
+                                      width: screenWidth * 1,
+                                      height: screenHeight * 0.3,
+                                    ));
                           },
                         );
                       }).toList(),
@@ -112,13 +123,13 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "Added: ${DateTimeHelper.timeAgo(trekModel.createdAt)}",
+                              "Added: ${DateTimeHelper.timeAgo(placeModel.createdAt)}",
                               style: const TextStyle(fontSize: 10),
                             ),
                           ],
                         ),
                         Text(
-                          trekModel.name,
+                          placeModel.name,
                           style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
@@ -128,7 +139,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                             children: [
                               Row(
                                 children: List.generate(
-                                  trekModel.avgRating.toInt(),
+                                  placeModel.avgRating.toInt(),
                                   (index) => const Icon(
                                     Icons.star,
                                     color: CupertinoColors.activeOrange,
@@ -136,7 +147,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                 ),
                               ),
                               Text(
-                                trekModel.avgRating.toStringAsPrecision(2),
+                                placeModel.avgRating.toStringAsPrecision(2),
                                 style: const TextStyle(fontSize: 18),
                               ),
                             ],
@@ -146,7 +157,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                           children: [
                             const Icon(Icons.location_on_outlined, size: 25),
                             Text(
-                              trekModel.location,
+                              placeModel.location,
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w500),
                             )
@@ -164,24 +175,27 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                     width: screenWidth * 0.02,
                                   ),
                                   Text(
-                                    trekModel.category,
+                                    placeModel.category,
                                     style: const TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w500),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ],
                               ),
-                              IconButton(icon:const Icon(Icons.headphones), onPressed:()=> {})
+                              IconButton(
+                                  icon: const Icon(Icons.headphones),
+                                  onPressed: () => {})
                             ],
                           ),
                         ),
-                        trekDetailProvider.when(
+                        placeDetailProvider.when(
                           data: (data) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8.0, top: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, top: 8.0),
                                   child: Text(
                                     data.description,
                                     style: const TextStyle(fontSize: 15),
@@ -210,17 +224,19 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                                 'Altitude',
                                                 style: TextStyle(
                                                     fontSize: 23,
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                             Row(
                                               children: [
                                                 const SizedBox(width: 8),
                                                 // Adjust as needed
-                                                const Icon(Icons.height_outlined,
+                                                const Icon(
+                                                    Icons.height_outlined,
                                                     size: 20),
                                                 Text(
-                                                  data.altitude,
+                                                  data.latitude??data.latitude!,
                                                   style: const TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:
@@ -228,14 +244,16 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(height: screenHeight * 0.02),
+                                            SizedBox(
+                                                height: screenHeight * 0.02),
                                             const Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Text(
                                                 'Trip Duration',
                                                 style: TextStyle(
                                                     fontSize: 23,
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                             Padding(
@@ -252,7 +270,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                                         const EdgeInsets.only(
                                                             left: 5.0),
                                                     child: Text(
-                                                      data.numberOfDays,
+                                                      data.longitude??data.longitude!,
                                                       style: const TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
@@ -269,11 +287,13 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                                 'Budget Range',
                                                 style: TextStyle(
                                                     fontSize: 23,
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Row(
                                                 children: [
                                                   const Icon(
@@ -285,7 +305,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                                         const EdgeInsets.only(
                                                             left: 8.0),
                                                     child: Text(
-                                                      'NRs.${data.budgetRange}',
+                                                      'NRs.${data.openTime}',
                                                       style: const TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
@@ -305,23 +325,19 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                         padding:
                                             const EdgeInsets.only(right: 8.0),
                                         child: InkWell(
-                                          onTap: () => viewModel.showMap(
-                                              context, data.mapUrl),
+                                          onTap: () {},
                                           child: SizedBox(
-                                            width: screenWidth * 0.2,
-                                            height: screenHeight * 0.3,
-                                            child: Image.network(
-                                              data.mapUrl,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                              width: screenWidth * 0.2,
+                                              height: screenHeight * 0.3,
+                                              child: SizedBox()),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
                                 const Padding(
-                                  padding: EdgeInsets.only(top: 10.0, left: 8.0),
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, left: 8.0),
                                   child: Text(
                                     'Emergency Number',
                                     style: TextStyle(
@@ -336,9 +352,10 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                       const Icon(Icons.phone_in_talk_outlined,
                                           size: 20),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
                                         child: Text(
-                                          data.emergencyNumber,
+                                          data.longitude??data.longitude!,
                                           style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.w500),
@@ -351,6 +368,8 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                             );
                           },
                           error: (error, stackTrace) {
+                            print(error.toString());
+                            print(stackTrace);
                             return const Text("Sorry");
                           },
                           loading: () {
@@ -378,7 +397,6 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                       ),
                     ),
                   ),
-
                   SizedBox(
                     height: screenHeight * 0.4,
                     child: PagedListView(
@@ -403,29 +421,40 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border(
-                          top: BorderSide(width: 2, color: Colors.grey.withOpacity(0.2))
-                        ),
+                            top: BorderSide(
+                                width: 2, color: Colors.grey.withOpacity(0.2))),
                       ),
-                      height: screenHeight*0.1,
-                      child:  Padding(
+                      height: screenHeight * 0.1,
+                      child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
                             Expanded(
                               flex: 4,
                               child: TextField(
-                                controller: viewModel.reviewController,
                                 decoration: InputDecoration(
-                                  suffixIcon:IconButton(icon: const Icon(Icons.send),onPressed: ()=>viewModel.postTrekReview(trekModel.trekId),) ,
-                                  hintText: 'Write your review here', // Placeholder text
-                                  border: OutlineInputBorder(borderRadius:BorderRadius.circular(8),borderSide: BorderSide(color: Colors.black)), // Remove default border
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.send),
+                                    onPressed: () => viewModel
+                                        .postTrekReview(placeModel.placeId),
+                                  ),
+                                  hintText: 'Write your review here',
+                                  // Placeholder text
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                          color: Colors
+                                              .black)), // Remove default border
                                 ),
-                                maxLines: null, // Allow multiple lines for the review
-                                keyboardType: TextInputType.multiline, // Allow multiline input
-                                style: const TextStyle(fontSize: 16), // Adjust text style as needed
+                                maxLines: null,
+                                // Allow multiple lines for the review
+                                keyboardType: TextInputType.multiline,
+                                // Allow multiline input
+                                style: const TextStyle(
+                                    fontSize:
+                                        16), // Adjust text style as needed
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -434,22 +463,20 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                 ],
               ),
             ),
-
           ),
         );
       },
-
     );
   }
 
   @override
-  TrekDetailsViewModel viewModelBuilder(BuildContext context) =>
-      TrekDetailsViewModel();
+  PlaceDetailsViewModel viewModelBuilder(BuildContext context) =>
+      PlaceDetailsViewModel();
 
   @override
-  void onViewModelReady(TrekDetailsViewModel viewModel) {
+  void onViewModelReady(PlaceDetailsViewModel viewModel) {
     viewModel.pagingController.addPageRequestListener((pageKey) {
-      viewModel.fetchPage(pageKey, trekModel.trekId);
+      viewModel.fetchPlaceReview(pageKey, placeModel.placeId);
     });
     super.onViewModelReady(viewModel);
   }
