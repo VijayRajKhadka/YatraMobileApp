@@ -18,10 +18,9 @@ class ReviewCardView extends StackedView<ReviewCardViewModel>{
 
   @override
   Widget builder(BuildContext context, ReviewCardViewModel viewModel, Widget? child) {
-    return Card(
-      elevation: 1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -30,8 +29,8 @@ class ReviewCardView extends StackedView<ReviewCardViewModel>{
           children: [
             // Circle box for profile image
             Container(
-              width: MediaQuery.of(context).size.width*0.15,
-              height: MediaQuery.of(context).size.width*0.15,
+              width: MediaQuery.of(context).size.width*0.11,
+              height: MediaQuery.of(context).size.width*0.11,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.grey),
@@ -76,9 +75,7 @@ class ReviewCardView extends StackedView<ReviewCardViewModel>{
                       review,
                       maxLines: viewModel.isExpanded?1000:4,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14,
-
-                      ),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
@@ -88,10 +85,8 @@ class ReviewCardView extends StackedView<ReviewCardViewModel>{
         ),
       ),
     );
-}
+  }
 
   @override
   ReviewCardViewModel viewModelBuilder(BuildContext context) => ReviewCardViewModel();
-
-
 }

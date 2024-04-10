@@ -11,6 +11,8 @@ import '../services/review_services.dart';
 import '../ui/views/home_view/home_view.dart';
 import '../ui/views/home_view/pages/place_detail_view/place_details_view.dart';
 import '../ui/views/home_view/pages/place_screen/place_screen_view.dart';
+import '../ui/views/home_view/pages/restaurant_details_view/restaurant_details_view.dart';
+import '../ui/views/home_view/pages/restaurant_screen/restaurant_screen_view.dart';
 import '../ui/views/home_view/pages/trek_detail_view/trek_details_view.dart';
 import '../ui/views/home_view/pages/trek_screen/trek_screen_view.dart';
 import '../ui/views/login_view/login_view.dart';
@@ -27,6 +29,8 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         MaterialRoute(page: HomeView),
         MaterialRoute(page: TrekView),
         MaterialRoute(page: PlaceView),
+        MaterialRoute(page: RestaurantView),
+        MaterialRoute(page: RestaurantDetailView),
         MaterialRoute(page: TrekDetailsView),
         MaterialRoute(page: PlaceDetailView)
 

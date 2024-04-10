@@ -7,17 +7,17 @@ import '../model/place_model.dart';
 class PlaceServices {
   final Dio _dio = Dio();
 
-  late FutureProvider<List<PlaceModel>>placeProvider;
+  late FutureProviderFamily<List<PlaceModel>,String>placeProvider;
   late FutureProviderFamily<PlaceDetailsModel, int> placeDetailProvider;
 
   PlaceServices() {
-    placeProvider = FutureProvider<List<PlaceModel>>((ref)=> getPlaceData());
+    placeProvider = FutureProvider.family<List<PlaceModel>,String>((ref,search)=> getPlaceData(search));
     placeDetailProvider = FutureProvider.family<PlaceDetailsModel, int>((ref, placeId) => getPlaceDetails(placeId));
 
   }
 
 
-  Future<List<PlaceModel>> getPlaceData() async {
+  Future<List<PlaceModel>> getPlaceData(String? search) async {
     try {
       final response = await _dio.get('${ApiHelper.baseUrl}place');
       if (response.statusCode == 200) {
@@ -37,9 +37,9 @@ class PlaceServices {
     }
   }
 
-  Future<List<PlaceModel>> getPaginatingData(String query,{int page = 1}) async {
+  Future<List<PlaceModel>> getPaginatingData(String search,{int page = 1}) async {
     try {
-      final response = await _dio.get('${ApiHelper.baseUrl}place${query.isNotEmpty ? '?search=$query' : ''}${query.isNotEmpty && page != null ? '&' : ''}${page != null ? 'page=$page' : ''}');
+      final response = await _dio.get('${ApiHelper.baseUrl}place?search=${search ?? ""}');
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['data']['data'];
         print(response.data);

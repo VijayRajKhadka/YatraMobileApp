@@ -5,37 +5,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
+import 'package:yatra/ui/views/home_view/pages/restaurant_details_view/restaurant_details_view_model.dart';
 import '../../../../../core/helper/strings_helper.dart';
-import 'place_details_view_model.dart';
-
+import '../../../../../model/restaurant_model.dart';
 import '../../../../../core/helper/assets_helper.dart';
 import '../../../../../core/helper/date_time_helper.dart';
-import '../../../../../model/place_model.dart';
 import '../../../../widgets/Slider.dart';
 import '../../../../widgets/review_card/review_card_view.dart';
 import '../../../../widgets/shimmer_widget.dart';
 
-class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
-  final PlaceModel placeModel;
+class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
+  final RestaurantModel restaurantModel;
 
-  const PlaceDetailView(this.placeModel, {super.key});
+  const RestaurantDetailView(this.restaurantModel, {super.key});
 
   @override
-  Widget builder(
-      BuildContext context, PlaceDetailsViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, RestaurantDetailsViewModel viewModel,
+      Widget? child) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        final placeDetailProvider = ref.watch(
-            viewModel.placeServices.placeDetailProvider(placeModel.placeId));
+        final restaurantDetailProvider = ref.watch(viewModel.restaurantServices
+            .restaurantDetailProvider(restaurantModel.restaurantId));
         return RefreshIndicator(
           onRefresh: () async {
             await Future.delayed(const Duration(milliseconds: 2000));
-            ref.refresh(viewModel.placeServices.placeProvider(''));
-            ref.refresh(viewModel.placeServices
-                .placeDetailProvider(placeModel.placeId));
+            ref.refresh(viewModel.restaurantServices.restaurantProvider(''));
+            ref.refresh(viewModel.restaurantServices
+                .restaurantDetailProvider(restaurantModel.restaurantId));
             viewModel.pagingController.refresh();
           },
           child: Scaffold(
@@ -43,7 +42,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               title: Text(
-                placeModel.name,
+                restaurantModel.name,
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -62,8 +61,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                       context: context,
                       builder: (BuildContext context) {
                         return SliderDialog(
-                          id: placeModel.placeId,
-                          isType: 'place',
+                          id: restaurantModel.restaurantId,
+                          isType: 'restaurant',
                         );
                       },
                     );
@@ -99,11 +98,11 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                         pauseAutoPlayOnTouch: true,
                         enlargeCenterPage: false,
                       ),
-                      items: placeModel.placeImages.map((image) {
+                      items: restaurantModel.restaurantImages.map((image) {
                         return Builder(
                           builder: (BuildContext context) {
                             return CachedNetworkImage(
-                                imageUrl: image.placeImagePath,
+                                imageUrl: image.restaurantImagePath,
                                 fit: BoxFit.cover,
                                 width: screenWidth * 1,
                                 height: screenHeight * 0.3,
@@ -128,13 +127,13 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "Added: ${DateTimeHelper.timeAgo(placeModel.createdAt)}",
+                              "Added: ${DateTimeHelper.timeAgo(restaurantModel.createdAt)}",
                               style: const TextStyle(fontSize: 10),
                             ),
                           ],
                         ),
                         Text(
-                          placeModel.name,
+                          restaurantModel.name,
                           style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.bold),
                         ),
@@ -144,7 +143,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                             children: [
                               Row(
                                 children: List.generate(
-                                  placeModel.avgRating.toInt(),
+                                  restaurantModel.avgRating.toInt(),
                                   (index) => const Icon(
                                     Icons.star,
                                     color: CupertinoColors.activeOrange,
@@ -152,7 +151,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                 ),
                               ),
                               Text(
-                                placeModel.avgRating.toStringAsPrecision(2),
+                                restaurantModel.avgRating
+                                    .toStringAsPrecision(2),
                                 style: const TextStyle(fontSize: 18),
                               ),
                             ],
@@ -162,7 +162,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                           children: [
                             const Icon(Icons.location_on_outlined, size: 25, color: Colors.blueAccent,),
                             Text(
-                              placeModel.location,
+                              restaurantModel.location,
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w500),
                             )
@@ -180,9 +180,9 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                     width: screenWidth * 0.02,
                                   ),
                                   Text(
-                                    placeModel.category,
+                                    restaurantModel.category,
                                     style: const TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w500),
                                   ),
                                 ],
@@ -193,7 +193,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                             ],
                           ),
                         ),
-                        placeDetailProvider.when(data: (data) {
+                        restaurantDetailProvider.when(data: (data) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -253,7 +253,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                               // Adjust as needed
                                               const Icon(
                                                   Icons.access_time_outlined,
-                                                  size: 20, color: Colors.blue,),
+                                                  size: 20,
+                                                  color: Colors.blue,),
                                               Text(
                                                 data.openTime,
                                                 style: const TextStyle(
@@ -264,6 +265,43 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                             ],
                                           ),
                                           SizedBox(height: screenHeight * 0.02),
+                                          const Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Pricing',
+                                              style: TextStyle(
+                                                  fontSize: 23,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 5.0, bottom: 8.0),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5.0),
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons
+                                                        .monetization_on_outlined,
+                                                    size: 20,
+                                                    color: CupertinoColors
+                                                        .activeGreen,
+                                                  ),
+                                                  Text(
+                                                    data.affordability,
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: viewModel
+                                                          .chooseColor(data
+                                                              .affordability),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                           const Padding(
                                             padding: EdgeInsets.all(8.0),
                                             child: Text(
@@ -296,6 +334,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                             ],
                           );
                         }, error: (error, stackTrace) {
+                          print(error);
                           return const Text("Sorry");
                         }, loading: () {
                           return ShimmerWidget(
@@ -307,7 +346,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                     ),
                   ),
                   Container(
-                     color:  StringsHelper.reviewContColor,
+                    color:  StringsHelper.reviewContColor,
                     child: const Padding(
                       padding:
                           EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
@@ -360,13 +399,10 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                               child: TextField(
                                 controller: viewModel.reviewController,
                                 decoration: InputDecoration(
-                                  focusColor:  StringsHelper.reviewContColor,
-                                  fillColor:  StringsHelper.reviewContColor,
-
                                   suffixIcon: IconButton(
-                                    icon: const Icon(Icons.send, color:  StringsHelper.reviewContColor,),
-                                    onPressed: () => viewModel
-                                        .postTrekReview(placeModel.placeId),
+                                    icon: const Icon(Icons.send,  color:StringsHelper.reviewContColor),
+                                    onPressed: () => viewModel.postTrekReview(
+                                        restaurantModel.restaurantId),
                                   ),
                                   hintText: 'Write your review here',
                                   // Placeholder text
@@ -396,13 +432,13 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
   }
 
   @override
-  PlaceDetailsViewModel viewModelBuilder(BuildContext context) =>
-      PlaceDetailsViewModel();
+  RestaurantDetailsViewModel viewModelBuilder(BuildContext context) =>
+      RestaurantDetailsViewModel();
 
   @override
-  void onViewModelReady(PlaceDetailsViewModel viewModel) {
+  void onViewModelReady(RestaurantDetailsViewModel viewModel) {
     viewModel.pagingController.addPageRequestListener((pageKey) {
-      viewModel.fetchPlaceReview(pageKey, placeModel.placeId);
+      viewModel.fetchRestaurantReview(pageKey, restaurantModel.restaurantId);
     });
     super.onViewModelReady(viewModel);
   }

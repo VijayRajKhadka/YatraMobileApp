@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stacked/stacked.dart';
+import 'package:yatra/ui/widgets/shimmer_widget.dart';
 import '../../../../../model/place_model.dart';
 import '../../../../../model/restaurant_model.dart';
 import '../../../../../core/helper/assets_helper.dart';
@@ -23,15 +24,15 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final trekProvider = ref.watch(viewModel.trekServices.trekProvider(''));
-        final restaurantProvider = ref.watch(viewModel.restaurantServices.restaurantProvider);
-        final placeProvider = ref.watch(viewModel.placeServices.placeProvider);
+        final restaurantProvider = ref.watch(viewModel.restaurantServices.restaurantProvider(''));
+        final placeProvider = ref.watch(viewModel.placeServices.placeProvider(''));
 
         return Scaffold(
           body: RefreshIndicator(
             onRefresh: () async {
               ref.refresh(viewModel.trekServices.trekProvider(''));
-              ref.refresh(viewModel.restaurantServices.restaurantProvider);
-              ref.refresh(viewModel.placeServices.placeProvider);
+              ref.refresh(viewModel.restaurantServices.restaurantProvider(''));
+              ref.refresh(viewModel.placeServices.placeProvider(''));
 
             },
             child: ListView(
@@ -53,23 +54,32 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            TopNavView(
-                              width: screenWidth * 0.40,
-                              icon: Icons.stars_sharp,
-                              text: "New Discovery",
-                              borderColor: Colors.orangeAccent,
+                            InkWell(
+                              onTap: viewModel.gotToHomeScreen,
+                              child: TopNavView(
+                                width: screenWidth * 0.40,
+                                icon: Icons.stars_sharp,
+                                text: "New Discovery",
+                                borderColor: Colors.orangeAccent,
+                              ),
                             ),
-                            TopNavView(
-                              width: screenWidth * 0.22,
-                              icon: Icons.snowshoeing_sharp,
-                              text: "Trek",
-                              borderColor: Colors.green,
+                            InkWell(
+                              onTap: viewModel.goToTrekScreen,
+                              child: TopNavView(
+                                width: screenWidth * 0.22,
+                                icon: Icons.snowshoeing_sharp,
+                                text: "Trek",
+                                borderColor: Colors.green,
+                              ),
                             ),
-                            TopNavView(
-                              width: screenWidth * 0.25,
-                              icon: Icons.fastfood_sharp,
-                              text: "Food",
-                              borderColor: Colors.redAccent,
+                            InkWell(
+                              onTap: viewModel.goToRestaurantScreen,
+                              child: TopNavView(
+                                width: screenWidth * 0.25,
+                                icon: Icons.fastfood_sharp,
+                                text: "Food",
+                                borderColor: Colors.redAccent,
+                              ),
                             ),
                             TopNavView(
                               width: screenWidth * 0.28,
@@ -191,9 +201,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       child: Text("$error"),
                     );
                   }, loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return ShimmerWidget(height: screenHeight*0.3, width: screenWidth*0.2, boxCount: 1);
                   }),
                 ),
                 Stack(alignment: Alignment.center, children: [
@@ -278,12 +286,15 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       scrollDirection: Axis.horizontal,
                       itemCount: data.length > 5 ? 5 : data.length,
                       itemBuilder: (context, index) {
-                        return HomePageCardView(
-                            data[index].name,
-                            data[index].restaurantImages[0].restaurantImagePath,
-                            data[index].avgRating,
-                            data[index].location,
-                            data[index].category);
+                        return InkWell(
+                          onTap:()=> viewModel.goToRestaurant(data[index]),
+                          child: HomePageCardView(
+                              data[index].name,
+                              data[index].restaurantImages[0].restaurantImagePath,
+                              data[index].avgRating,
+                              data[index].location,
+                              data[index].category),
+                        );
                       },
                     );
                   }, error: (Object error, StackTrace stackTrace) {
@@ -292,9 +303,8 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       child: Text("$error"),
                     );
                   }, loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return ShimmerWidget(height: screenHeight*0.3, width: screenWidth*0.2, boxCount: 1);
+
                   }),
                 ),
                 Stack(alignment: Alignment.center, children: [
@@ -395,9 +405,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       child: Text("$error"),
                     );
                   }, loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return ShimmerWidget(height: screenHeight*0.3, width: screenWidth*0.4, boxCount: 1);
                   }),
                 ),
               ],

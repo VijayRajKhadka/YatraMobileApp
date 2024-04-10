@@ -1,22 +1,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yatra/core/helper/assets_helper.dart';
+import 'package:yatra/services/place_services.dart';
 import 'package:yatra/services/review_services.dart';
 import 'package:yatra/ui/views/home_view/pages/trek_detail_view/trek_map_view.dart';
 import '../../../../../app/app.locator.dart';
 import '../../../../../services/local_storage_service.dart';
-import '../../../../../services/trek_services.dart';
+import '../../../../../services/restaurant_services.dart';
 
-class TrekDetailsViewModel extends BaseViewModel{
-  final TrekServices trekServices = locator<TrekServices>();
+class RestaurantDetailsViewModel extends BaseViewModel{
+  final RestaurantServices restaurantServices = locator<RestaurantServices>();
   final ReviewServices reviewServices = locator<ReviewServices>();
   final LocalStorageService localStorageService= locator<LocalStorageService>();
   final TextEditingController reviewController = TextEditingController();
-  final FlutterTts flutterTts = FlutterTts();
 
 
   double? rate;
@@ -24,15 +23,8 @@ class TrekDetailsViewModel extends BaseViewModel{
   final PagingController <int,dynamic> pagingController = PagingController(firstPageKey: 1);
   double sliderValue = 0.0;
 
-
-  speak(String data)async{
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setPitch(1.1);
-    await flutterTts.speak(data);
-  }
-
-  Future<void> fetchPage(int pageKey, int trekId)async{
-    final newItem=await reviewServices.getReviewData(trekId,page: pageKey, isTrek: true);
+  Future<void> fetchRestaurantReview(int pageKey, int placeId)async{
+    final newItem=await reviewServices.getReviewData(placeId,page: pageKey, isRestaurant: true);
     final isLast = newItem.length<_reviewPageSize;
     if(isLast){
       pagingController.appendLastPage(newItem);
@@ -45,14 +37,14 @@ class TrekDetailsViewModel extends BaseViewModel{
 
   showMap(BuildContext context, String imageUrl){
     Navigator.push(context,MaterialPageRoute(builder: (context)=> ShowMapView(imageUrl: imageUrl,)));
-}
-  postTrekReview(int trekId){
+  }
+  postTrekReview(int restaurantId){
     if(reviewController.text.trim().isEmpty || reviewController.text.trim()==null){
       EasyLoading.showToast("Pheri Hal");
     }
     else{
       EasyLoading.show(indicator: Image.asset(AssetsHelper.loader, width: 50,height: 50,), status: 'Posting...');
-      reviewServices.postReview(trekId, reviewController.text.trim(),isTrek: true).then((value)
+      reviewServices.postReview(restaurantId, reviewController.text.trim(),isRestaurant: true).then((value)
       {
         if(value==1){
           pagingController.refresh();
@@ -68,12 +60,12 @@ class TrekDetailsViewModel extends BaseViewModel{
     }
   }
 
-  postTrekRating(int trekId,){
+  postTrekRating(int placeId,){
     if(rate!=null) {
       EasyLoading.show(
           indicator: Image.asset(AssetsHelper.loader, width: 50, height: 50,),
           status: 'Posting...');
-      reviewServices.postRate(trekId, rate!, 'trek').then((value) {
+      reviewServices.postRate(placeId, rate!,'place').then((value) {
         if (value == 1) {
           pagingController.refresh();
           EasyLoading.dismiss();
@@ -87,4 +79,17 @@ class TrekDetailsViewModel extends BaseViewModel{
       EasyLoading.showToast("Pheri Hal");
     }
   }
+
+
+  Color chooseColor(String affordability) {
+    switch (affordability) {
+      case 'Cheap':
+        return Colors.green;
+      case 'Budget-Friendly':
+        return Colors.blue;
+      default:
+        return Colors.red;
+    }
+  }
+
 }

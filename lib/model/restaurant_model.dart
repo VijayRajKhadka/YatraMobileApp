@@ -57,3 +57,61 @@ class RestaurantImageModel {
     );
   }
 }
+class RestaurantDetailsModel {
+  final int restaurantId;
+  final String name;
+  final String description;
+  final String location;
+  final String affordability;
+  final String category;
+  final String openTime;
+  final String? latitude;
+  final String? longitude;
+  final String getThere;
+  final int approve;
+  final String createdAt;
+  final String updatedAt;
+  final List<RestaurantImageModel> restaurantImages;
+
+  RestaurantDetailsModel( {
+    required this.affordability,
+    required this.restaurantId,
+    required this.name,
+    required this.description,
+    required this.location,
+    required this.category,
+    required this.openTime,
+    this.latitude,
+    this.longitude,
+    required this.getThere,
+    required this.approve,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.restaurantImages,
+  });
+
+  factory RestaurantDetailsModel.fromJson(Map<String, dynamic> json) {
+    List<dynamic> imagesData = json['restaurant_image'];
+    List<RestaurantImageModel> restaurantImages = imagesData
+        .map((imageJson) => RestaurantImageModel.fromJson(imageJson))
+        .toList();
+
+    return RestaurantDetailsModel(
+      restaurantId: json['restaurant_id'],
+      name: json['name'],
+      description: json['description'],
+      location: json['location'],
+      affordability: json['affordability'],
+      category: json['category'],
+      openTime: json['open_time'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+      getThere: json['get_there'],
+      approve: json['approve'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      restaurantImages: restaurantImages,
+    );
+  }
+}
+

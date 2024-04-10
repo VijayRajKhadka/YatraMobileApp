@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yatra/ui/widgets/review_card/review_card_view.dart';
+import 'package:yatra/ui/widgets/shimmer_widget.dart';
 import '../../../../../core/helper/assets_helper.dart';
 import '../../../../../core/helper/date_time_helper.dart';
+import '../../../../../core/helper/strings_helper.dart';
 import '../../../../../model/trek_model.dart';
 import '../../../../widgets/Slider.dart';
 import 'trek_details_view_model.dart';
@@ -170,7 +173,6 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                   ),
                                 ],
                               ),
-                              IconButton(icon:const Icon(Icons.headphones), onPressed:()=> {})
                             ],
                           ),
                         ),
@@ -179,6 +181,8 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                IconButton(icon:const Icon(Icons.headphones), onPressed:()=> viewModel.speak(data.description))
+,
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(left: 8.0, top: 8.0),
@@ -354,15 +358,14 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                             return const Text("Sorry");
                           },
                           loading: () {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return ShimmerWidget(height: screenHeight*0.2, width: screenWidth*0.9, boxCount: 2);
                           },
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    color: Colors.tealAccent,
+                    color:  StringsHelper.reviewContColor,
                     child: const Padding(
                       padding:
                           EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
@@ -380,7 +383,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                   ),
 
                   SizedBox(
-                    height: screenHeight * 0.4,
+                    height: screenHeight * 0.3,
                     child: PagedListView(
                       padding: EdgeInsets.zero,
                       pagingController: viewModel.pagingController,
@@ -416,7 +419,7 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                               child: TextField(
                                 controller: viewModel.reviewController,
                                 decoration: InputDecoration(
-                                  suffixIcon:IconButton(icon: const Icon(Icons.send),onPressed: ()=>viewModel.postTrekReview(trekModel.trekId),) ,
+                                  suffixIcon:IconButton(icon: const Icon(Icons.send, color:  StringsHelper.reviewContColor,),onPressed: ()=>viewModel.postTrekReview(trekModel.trekId),) ,
                                   hintText: 'Write your review here', // Placeholder text
                                   border: OutlineInputBorder(borderRadius:BorderRadius.circular(8),borderSide: BorderSide(color: Colors.black)), // Remove default border
                                 ),

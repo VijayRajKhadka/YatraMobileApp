@@ -103,14 +103,14 @@ class HomePageCardView extends StackedView<HomePageCardViewModel> {
                   children: [
                     const Expanded(
                         flex: 1,
-                        child: Icon(Icons.location_on_outlined, size: 20)),
+                        child: Icon(Icons.location_on_outlined, size: 20, color: Colors.blueAccent,)),
                     Expanded(
                       flex: 8,
                       child: Text(
                         location,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 17),
+                            fontWeight: FontWeight.w400, fontSize: 16),
                       ),
                     ),
                   ],
@@ -122,7 +122,7 @@ class HomePageCardView extends StackedView<HomePageCardViewModel> {
               padding: const EdgeInsets.only(left: 8.0),
               child: Row(
                 children: [
-                  const Icon(Icons.account_tree_outlined, size: 20),
+                  const Icon(Icons.account_tree_outlined, size: 20, color: Colors.green,),
                   const SizedBox(width: 4),
                   Text(
                     category,

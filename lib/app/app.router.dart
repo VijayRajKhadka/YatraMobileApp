@@ -5,20 +5,25 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/cupertino.dart' as _i13;
-import 'package:flutter/material.dart' as _i11;
+import 'package:flutter/cupertino.dart' as _i15;
+import 'package:flutter/material.dart' as _i13;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i15;
-import 'package:yatra/model/place_model.dart' as _i14;
-import 'package:yatra/model/trek_model.dart' as _i12;
+import 'package:stacked_services/stacked_services.dart' as _i18;
+import 'package:yatra/model/place_model.dart' as _i17;
+import 'package:yatra/model/restaurant_model.dart' as _i14;
+import 'package:yatra/model/trek_model.dart' as _i16;
 import 'package:yatra/ui/views/home_view/home_view.dart' as _i6;
 import 'package:yatra/ui/views/home_view/pages/place_detail_view/place_details_view.dart'
-    as _i10;
+    as _i12;
 import 'package:yatra/ui/views/home_view/pages/place_screen/place_screen_view.dart'
     as _i8;
-import 'package:yatra/ui/views/home_view/pages/trek_detail_view/trek_details_view.dart'
+import 'package:yatra/ui/views/home_view/pages/restaurant_details_view/restaurant_details_view.dart'
+    as _i10;
+import 'package:yatra/ui/views/home_view/pages/restaurant_screen/restaurant_screen_view.dart'
     as _i9;
+import 'package:yatra/ui/views/home_view/pages/trek_detail_view/trek_details_view.dart'
+    as _i11;
 import 'package:yatra/ui/views/home_view/pages/trek_screen/trek_screen_view.dart'
     as _i7;
 import 'package:yatra/ui/views/login_view/login_view.dart' as _i5;
@@ -42,6 +47,10 @@ class Routes {
 
   static const placeView = '/place-view';
 
+  static const restaurantView = '/restaurant-view';
+
+  static const restaurantDetailView = '/restaurant-detail-view';
+
   static const trekDetailsView = '/trek-details-view';
 
   static const placeDetailView = '/place-detail-view';
@@ -54,6 +63,8 @@ class Routes {
     homeView,
     trekView,
     placeView,
+    restaurantView,
+    restaurantDetailView,
     trekDetailsView,
     placeDetailView,
   };
@@ -90,71 +101,93 @@ class StackedRouter extends _i1.RouterBase {
       page: _i8.PlaceView,
     ),
     _i1.RouteDef(
+      Routes.restaurantView,
+      page: _i9.RestaurantView,
+    ),
+    _i1.RouteDef(
+      Routes.restaurantDetailView,
+      page: _i10.RestaurantDetailView,
+    ),
+    _i1.RouteDef(
       Routes.trekDetailsView,
-      page: _i9.TrekDetailsView,
+      page: _i11.TrekDetailsView,
     ),
     _i1.RouteDef(
       Routes.placeDetailView,
-      page: _i10.PlaceDetailView,
+      page: _i12.PlaceDetailView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.SplashScreenView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.SplashScreenView(),
         settings: data,
       );
     },
     _i3.OnBoardingView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.OnBoardingView(),
         settings: data,
       );
     },
     _i4.RegisterView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.RegisterView(),
         settings: data,
       );
     },
     _i5.LoginView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.LoginView(),
         settings: data,
       );
     },
     _i6.HomeView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.HomeView(),
         settings: data,
       );
     },
     _i7.TrekView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.TrekView(),
         settings: data,
       );
     },
     _i8.PlaceView: (data) {
-      return _i11.MaterialPageRoute<dynamic>(
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.PlaceView(),
         settings: data,
       );
     },
-    _i9.TrekDetailsView: (data) {
-      final args = data.getArgs<TrekDetailsViewArguments>(nullOk: false);
-      return _i11.MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            _i9.TrekDetailsView(trekModel: args.trekModel, key: args.key),
+    _i9.RestaurantView: (data) {
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i9.RestaurantView(),
         settings: data,
       );
     },
-    _i10.PlaceDetailView: (data) {
-      final args = data.getArgs<PlaceDetailViewArguments>(nullOk: false);
-      return _i11.MaterialPageRoute<dynamic>(
+    _i10.RestaurantDetailView: (data) {
+      final args = data.getArgs<RestaurantDetailViewArguments>(nullOk: false);
+      return _i13.MaterialPageRoute<dynamic>(
         builder: (context) =>
-            _i10.PlaceDetailView(args.placeModel, key: args.key),
+            _i10.RestaurantDetailView(args.restaurantModel, key: args.key),
+        settings: data,
+      );
+    },
+    _i11.TrekDetailsView: (data) {
+      final args = data.getArgs<TrekDetailsViewArguments>(nullOk: false);
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i11.TrekDetailsView(trekModel: args.trekModel, key: args.key),
+        settings: data,
+      );
+    },
+    _i12.PlaceDetailView: (data) {
+      final args = data.getArgs<PlaceDetailViewArguments>(nullOk: false);
+      return _i13.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i12.PlaceDetailView(args.placeModel, key: args.key),
         settings: data,
       );
     },
@@ -167,15 +200,42 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
+class RestaurantDetailViewArguments {
+  const RestaurantDetailViewArguments({
+    required this.restaurantModel,
+    this.key,
+  });
+
+  final _i14.RestaurantModel restaurantModel;
+
+  final _i15.Key? key;
+
+  @override
+  String toString() {
+    return '{"restaurantModel": "$restaurantModel", "key": "$key"}';
+  }
+
+  @override
+  bool operator ==(covariant RestaurantDetailViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.restaurantModel == restaurantModel && other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    return restaurantModel.hashCode ^ key.hashCode;
+  }
+}
+
 class TrekDetailsViewArguments {
   const TrekDetailsViewArguments({
     required this.trekModel,
     this.key,
   });
 
-  final _i12.TrekModel trekModel;
+  final _i16.TrekModel trekModel;
 
-  final _i13.Key? key;
+  final _i15.Key? key;
 
   @override
   String toString() {
@@ -200,9 +260,9 @@ class PlaceDetailViewArguments {
     this.key,
   });
 
-  final _i14.PlaceModel placeModel;
+  final _i17.PlaceModel placeModel;
 
-  final _i13.Key? key;
+  final _i15.Key? key;
 
   @override
   String toString() {
@@ -221,7 +281,7 @@ class PlaceDetailViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i15.NavigationService {
+extension NavigatorStateExtension on _i18.NavigationService {
   Future<dynamic> navigateToSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -320,9 +380,41 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToRestaurantView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.restaurantView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToRestaurantDetailView({
+    required _i14.RestaurantModel restaurantModel,
+    _i15.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.restaurantDetailView,
+        arguments: RestaurantDetailViewArguments(
+            restaurantModel: restaurantModel, key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> navigateToTrekDetailsView({
-    required _i12.TrekModel trekModel,
-    _i13.Key? key,
+    required _i16.TrekModel trekModel,
+    _i15.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -338,8 +430,8 @@ extension NavigatorStateExtension on _i15.NavigationService {
   }
 
   Future<dynamic> navigateToPlaceDetailView({
-    required _i14.PlaceModel placeModel,
-    _i13.Key? key,
+    required _i17.PlaceModel placeModel,
+    _i15.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -452,9 +544,41 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> replaceWithRestaurantView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.restaurantView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithRestaurantDetailView({
+    required _i14.RestaurantModel restaurantModel,
+    _i15.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.restaurantDetailView,
+        arguments: RestaurantDetailViewArguments(
+            restaurantModel: restaurantModel, key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithTrekDetailsView({
-    required _i12.TrekModel trekModel,
-    _i13.Key? key,
+    required _i16.TrekModel trekModel,
+    _i15.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -470,8 +594,8 @@ extension NavigatorStateExtension on _i15.NavigationService {
   }
 
   Future<dynamic> replaceWithPlaceDetailView({
-    required _i14.PlaceModel placeModel,
-    _i13.Key? key,
+    required _i17.PlaceModel placeModel,
+    _i15.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,

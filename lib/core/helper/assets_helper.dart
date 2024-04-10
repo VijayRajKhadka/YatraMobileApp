@@ -11,5 +11,5 @@ abstract class AssetsHelper{
   static const homeImg1= "https://vijayrajkhadka.com.np/storage/app/public/i1xowThP9eEOc9L5XLIuZvq3aRSsvtAX.jpg";
   static const homeImg2= "https://vijayrajkhadka.com.np/storage/app/public/axAr1794EoRqblVl9eLy8uPaB2KzZRhJ.jpg";
   static const homeImg3="https://vijayrajkhadka.com.np/storage/app/public/vnFrVr4057s81uVhv03NPgkJa177ktip.jpg";
-
+  static const String userLogo = "assets/logo/user.jpg";
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -30,8 +31,8 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
               EasyLoading.show(
                 indicator: Image.asset(
                   AssetsHelper.loader,
-                  width: 70,
-                  height: 70,
+                  width: screenWidth*0.07,
+                  height: screenHeight*0.07,
                 ),
               );
               return const Center();
@@ -48,10 +49,15 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                   SizedBox(
                     height: screenHeight * 0.2,
                     width: screenWidth,
-                    child: Image.network(
-                      user.profileUrl,
-                      fit: BoxFit.cover,
+                    child: CachedNetworkImage(placeholder: (context, url) => Image.asset(
+                      AssetsHelper.logo,
+                      width: screenWidth * 1,
+                      height: screenHeight * 0.18,
                     ),
+                      imageUrl: user.profileUrl,
+                      width: screenWidth * 1,
+                      height: screenHeight * 0.18,
+                      fit: BoxFit.cover,),
                   ),
                   Positioned.fill(
                     top: screenHeight * 0.17,
@@ -79,16 +85,19 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                                       borderRadius: BorderRadius.circular(70),
                                       border: Border.all(
                                         color: viewModel.getRandomColor(),
-                                        // Set your desired border color here
                                         width: 3, // Set the border width
                                       ),
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(70),
-                                      child: Image.network(
-                                        user.profileUrl,
+                                      child: CachedNetworkImage(placeholder: (context, url) => Image.asset(
+                                        AssetsHelper.userLogo,
+                                        width: screenWidth * 1,
+                                        height: screenHeight * 0.18,
                                         fit: BoxFit.cover,
                                       ),
+                                        imageUrl: user.profileUrl,
+                                        fit: BoxFit.cover,),
                                     ),
                                   ),
                                 ),
