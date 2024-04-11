@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:yatra/app/app.router.dart';
 import 'package:yatra/core/helper/assets_helper.dart';
+import 'package:yatra/core/helper/voice_helper.dart';
 import 'package:yatra/services/place_services.dart';
 import 'package:yatra/services/review_services.dart';
 import 'package:yatra/ui/views/home_view/pages/trek_detail_view/trek_map_view.dart';
@@ -12,9 +15,11 @@ import '../../../../../services/local_storage_service.dart';
 
 class PlaceDetailsViewModel extends BaseViewModel{
   final PlaceServices placeServices = locator<PlaceServices>();
+  final NavigationService _navigationService = locator<NavigationService>();
   final ReviewServices reviewServices = locator<ReviewServices>();
   final LocalStorageService localStorageService= locator<LocalStorageService>();
   final TextEditingController reviewController = TextEditingController();
+  final VoiceHelper voiceHelper = VoiceHelper();
 
   double? rate;
   final int _reviewPageSize=7;
@@ -32,10 +37,10 @@ class PlaceDetailsViewModel extends BaseViewModel{
     }
   }
 
-
-  showMap(BuildContext context, String imageUrl){
-    Navigator.push(context,MaterialPageRoute(builder: (context)=> ShowMapView(imageUrl: imageUrl,)));
+  void geoMap(double lat, double long){
+    _navigationService.navigateToMapView(latitude: lat, longitude: long);
   }
+
   postTrekReview(int placeId){
     if(reviewController.text.trim().isEmpty || reviewController.text.trim()==null){
       EasyLoading.showToast("Pheri Hal");

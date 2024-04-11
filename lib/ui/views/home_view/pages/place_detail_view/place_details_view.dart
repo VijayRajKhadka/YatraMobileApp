@@ -21,10 +21,16 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
   const PlaceDetailView(this.placeModel, {super.key});
 
   @override
-  Widget builder(
-      BuildContext context, PlaceDetailsViewModel viewModel, Widget? child) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+  Widget builder(BuildContext context, PlaceDetailsViewModel viewModel,
+      Widget? child) {
+    final screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    final screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -75,7 +81,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                 color: Colors.white,
                 iconSize: 32, // Set the size of the icon here
                 onPressed: () {
-                  // Handle back button pressed
+                  viewModel.voiceHelper.stop();
                   Navigator.of(context).pop();
                 },
               ),
@@ -94,7 +100,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                         autoPlay: true,
                         autoPlayInterval: const Duration(seconds: 3),
                         autoPlayAnimationDuration:
-                            const Duration(milliseconds: 1000),
+                        const Duration(milliseconds: 1000),
                         autoPlayCurve: Curves.fastOutSlowIn,
                         pauseAutoPlayOnTouch: true,
                         enlargeCenterPage: false,
@@ -107,7 +113,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                 fit: BoxFit.cover,
                                 width: screenWidth * 1,
                                 height: screenHeight * 0.3,
-                                placeholder: (context, url) => Image.asset(
+                                placeholder: (context, url) =>
+                                    Image.asset(
                                       AssetsHelper.logo,
                                       width: screenWidth * 1,
                                       height: screenHeight * 0.3,
@@ -128,7 +135,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "Added: ${DateTimeHelper.timeAgo(placeModel.createdAt)}",
+                              "Added: ${DateTimeHelper.timeAgo(
+                                  placeModel.createdAt)}",
                               style: const TextStyle(fontSize: 10),
                             ),
                           ],
@@ -145,7 +153,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                               Row(
                                 children: List.generate(
                                   placeModel.avgRating.toInt(),
-                                  (index) => const Icon(
+                                      (index) =>
+                                  const Icon(
                                     Icons.star,
                                     color: CupertinoColors.activeOrange,
                                   ),
@@ -160,7 +169,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                         ),
                         Row(
                           children: [
-                            const Icon(Icons.location_on_outlined, size: 25, color: Colors.blueAccent,),
+                            const Icon(Icons.location_on_outlined, size: 25,
+                              color: Colors.blueAccent,),
                             Text(
                               placeModel.location,
                               style: const TextStyle(
@@ -175,7 +185,8 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(Icons.category, size: 20, color: Colors.yellow,),
+                                  const Icon(Icons.category, size: 20,
+                                    color: Colors.yellow,),
                                   SizedBox(
                                     width: screenWidth * 0.02,
                                   ),
@@ -187,9 +198,7 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                   ),
                                 ],
                               ),
-                              IconButton(
-                                  icon: const Icon(Icons.headphones),
-                                  onPressed: () => {})
+
                             ],
                           ),
                         ),
@@ -197,9 +206,24 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                      icon: const Icon(Icons.headphones, color: Colors.green,),
+                                      onPressed: () => viewModel.voiceHelper
+                                          .speak(data.description)),
+                                  IconButton(
+                                      onPressed: viewModel.voiceHelper.pause,
+                                      icon: const Icon(Icons.pause,color: Colors.blue,)),
+                                  IconButton(
+                                      onPressed: viewModel.voiceHelper.stop,
+                                      icon: const Icon(Icons.stop, color: Colors.red,)),
+                                ],
+                              ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8.0),
+                                const EdgeInsets.only(left: 8.0, top: 8.0),
                                 child: Text(
                                   data.description,
                                   style: const TextStyle(fontSize: 15),
@@ -215,16 +239,16 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                     flex: 4,
                                     child: Padding(
                                       padding:
-                                          const EdgeInsets.only(right: 10.0),
+                                      const EdgeInsets.only(right: 10.0),
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               const Padding(
                                                 padding: EdgeInsets.all(8.0),
@@ -233,33 +257,69 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                                                   style: TextStyle(
                                                       fontSize: 23,
                                                       fontWeight:
-                                                          FontWeight.bold),
+                                                      FontWeight.bold),
                                                 ),
                                               ),
-                                              Padding(
+                                              if (data.longitude != null &&
+                                                  data.longitude!.isNotEmpty)
+                                                Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8.0,
-                                                          bottom: 10),
-                                                  child: ElevatedButton(
-                                                    onPressed: () {},
-                                                    child: Text("Explore Map"),
-                                                  )),
-                                            ],
+                                                  const EdgeInsets.only(
+                                                      right: 8.0,
+                                                      bottom: 10),
+                                                  child: ElevatedButton.icon(
+                                                    onPressed: () =>
+                                                        viewModel.geoMap(
+                                                          double.parse(
+                                                              data.latitude!),
+                                                          double.parse(
+                                                              data.longitude!),
+                                                        ),
+                                                    icon: const Icon(
+                                                      Icons.location_on,
+                                                      color: Colors.white,
+                                                    ),
+                                                    label: const Text(
+                                                      "Explore in Map",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+
+                                                      foregroundColor:
+                                                      Colors.white,
+                                                      backgroundColor:
+                                                      Colors.greenAccent,
+                                                      // Text color
+                                                      side: const BorderSide(
+                                                          color: Colors.white),
+                                                      // Border color
+                                                      shape:
+                                                      RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0), // Button border radius
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                ],
                                           ),
                                           Row(
                                             children: [
                                               const SizedBox(width: 8),
                                               // Adjust as needed
                                               const Icon(
-                                                  Icons.access_time_outlined,
-                                                  size: 20, color: Colors.blue,),
+                                                Icons.access_time_outlined,
+                                                size: 20, color: Colors.blue,),
                                               Text(
                                                 data.openTime,
                                                 style: const TextStyle(
                                                     fontSize: 18,
                                                     fontWeight:
-                                                        FontWeight.w500),
+                                                    FontWeight.w500),
                                               ),
                                             ],
                                           ),
@@ -307,10 +367,10 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                     ),
                   ),
                   Container(
-                     color:  StringsHelper.reviewContColor,
+                    color: StringsHelper.reviewContColor,
                     child: const Padding(
                       padding:
-                          EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
+                      EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -331,14 +391,14 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                       builderDelegate: PagedChildBuilderDelegate<dynamic>(
                         itemBuilder: (context, dynamic reviewModel, index) =>
                             Align(
-                          alignment: Alignment.topCenter,
-                          child: ReviewCardView(
-                            profileImageUrl: reviewModel.user.profileUrl,
-                            name: reviewModel.user.name,
-                            date: reviewModel.createdAt,
-                            review: reviewModel.review,
-                          ),
-                        ),
+                              alignment: Alignment.topCenter,
+                              child: ReviewCardView(
+                                profileImageUrl: reviewModel.user.profileUrl,
+                                name: reviewModel.user.name,
+                                date: reviewModel.createdAt,
+                                review: reviewModel.review,
+                              ),
+                            ),
                       ),
                     ),
                   ),
@@ -360,20 +420,22 @@ class PlaceDetailView extends StackedView<PlaceDetailsViewModel> {
                               child: TextField(
                                 controller: viewModel.reviewController,
                                 decoration: InputDecoration(
-                                  focusColor:  StringsHelper.reviewContColor,
-                                  fillColor:  StringsHelper.reviewContColor,
+                                  focusColor: StringsHelper.reviewContColor,
+                                  fillColor: StringsHelper.reviewContColor,
 
                                   suffixIcon: IconButton(
-                                    icon: const Icon(Icons.send, color:  StringsHelper.reviewContColor,),
-                                    onPressed: () => viewModel
-                                        .postTrekReview(placeModel.placeId),
+                                    icon: const Icon(Icons.send,
+                                      color: StringsHelper.reviewContColor,),
+                                    onPressed: () =>
+                                        viewModel
+                                            .postTrekReview(placeModel.placeId),
                                   ),
                                   hintText: 'Write your review here',
                                   // Placeholder text
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     borderSide:
-                                        const BorderSide(color: Colors.black),
+                                    const BorderSide(color: Colors.black),
                                   ),
                                 ),
                                 maxLines: null,

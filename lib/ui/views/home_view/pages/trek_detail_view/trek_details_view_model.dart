@@ -5,6 +5,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
 import 'package:yatra/core/helper/assets_helper.dart';
+import 'package:yatra/core/helper/voice_helper.dart';
 import 'package:yatra/services/review_services.dart';
 import 'package:yatra/ui/views/home_view/pages/trek_detail_view/trek_map_view.dart';
 import '../../../../../app/app.locator.dart';
@@ -17,19 +18,13 @@ class TrekDetailsViewModel extends BaseViewModel{
   final LocalStorageService localStorageService= locator<LocalStorageService>();
   final TextEditingController reviewController = TextEditingController();
   final FlutterTts flutterTts = FlutterTts();
-
+  final VoiceHelper voiceHelper = VoiceHelper();
 
   double? rate;
   final int _reviewPageSize=7;
   final PagingController <int,dynamic> pagingController = PagingController(firstPageKey: 1);
   double sliderValue = 0.0;
 
-
-  speak(String data)async{
-    await flutterTts.setLanguage("en-US");
-    await flutterTts.setPitch(1.1);
-    await flutterTts.speak(data);
-  }
 
   Future<void> fetchPage(int pageKey, int trekId)async{
     final newItem=await reviewServices.getReviewData(trekId,page: pageKey, isTrek: true);

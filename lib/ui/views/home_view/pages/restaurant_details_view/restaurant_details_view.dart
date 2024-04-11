@@ -74,7 +74,7 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                 color: Colors.white,
                 iconSize: 32, // Set the size of the icon here
                 onPressed: () {
-                  // Handle back button pressed
+                  viewModel.voiceHelper.stop();
                   Navigator.of(context).pop();
                 },
               ),
@@ -160,7 +160,11 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                         ),
                         Row(
                           children: [
-                            const Icon(Icons.location_on_outlined, size: 25, color: Colors.blueAccent,),
+                            const Icon(
+                              Icons.location_on_outlined,
+                              size: 25,
+                              color: Colors.blueAccent,
+                            ),
                             Text(
                               restaurantModel.location,
                               style: const TextStyle(
@@ -175,7 +179,11 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(Icons.category, size: 20, color: Colors.yellow,),
+                                  const Icon(
+                                    Icons.category,
+                                    size: 20,
+                                    color: Colors.yellow,
+                                  ),
                                   SizedBox(
                                     width: screenWidth * 0.02,
                                   ),
@@ -187,9 +195,6 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                                   ),
                                 ],
                               ),
-                              IconButton(
-                                  icon: const Icon(Icons.headphones),
-                                  onPressed: () => {})
                             ],
                           ),
                         ),
@@ -197,6 +202,21 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                      icon: const Icon(Icons.headphones, color: Colors.green,),
+                                      onPressed: () => viewModel.voiceHelper
+                                          .speak(data.description)),
+                                  IconButton(
+                                      onPressed: viewModel.voiceHelper.pause,
+                                      icon: const Icon(Icons.pause,color: Colors.blue,)),
+                                  IconButton(
+                                      onPressed: viewModel.voiceHelper.stop,
+                                      icon: const Icon(Icons.stop, color: Colors.red,)),
+                                ],
+                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(left: 8.0, top: 8.0),
@@ -236,15 +256,51 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                                                           FontWeight.bold),
                                                 ),
                                               ),
-                                              Padding(
+                                              if (data.longitude != null &&
+                                                  data.longitude!.isNotEmpty)
+                                                Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           right: 8.0,
                                                           bottom: 10),
-                                                  child: ElevatedButton(
-                                                    onPressed: () {},
-                                                    child: Text("Explore Map"),
-                                                  )),
+                                                  child: ElevatedButton.icon(
+                                                    onPressed: () =>
+                                                        viewModel.geoMap(
+                                                      double.parse(
+                                                          data.latitude!),
+                                                      double.parse(
+                                                          data.longitude!),
+                                                    ),
+                                                    icon: const Icon(
+                                                      Icons.location_on,
+                                                      color: Colors.white,
+                                                    ),
+                                                    label: const Text(
+                                                      "Explore in Map",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      backgroundColor:
+                                                          Colors.greenAccent,
+                                                      // Text color
+                                                      side: const BorderSide(
+                                                          color: Colors.white),
+                                                      // Border color
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                18.0), // Button border radius
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                             ],
                                           ),
                                           Row(
@@ -252,9 +308,10 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                                               const SizedBox(width: 8),
                                               // Adjust as needed
                                               const Icon(
-                                                  Icons.access_time_outlined,
-                                                  size: 20,
-                                                  color: Colors.blue,),
+                                                Icons.access_time_outlined,
+                                                size: 20,
+                                                color: Colors.blue,
+                                              ),
                                               Text(
                                                 data.openTime,
                                                 style: const TextStyle(
@@ -346,7 +403,7 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                     ),
                   ),
                   Container(
-                    color:  StringsHelper.reviewContColor,
+                    color: StringsHelper.reviewContColor,
                     child: const Padding(
                       padding:
                           EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
@@ -400,7 +457,8 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                                 controller: viewModel.reviewController,
                                 decoration: InputDecoration(
                                   suffixIcon: IconButton(
-                                    icon: const Icon(Icons.send,  color:StringsHelper.reviewContColor),
+                                    icon: const Icon(Icons.send,
+                                        color: StringsHelper.reviewContColor),
                                     onPressed: () => viewModel.postTrekReview(
                                         restaurantModel.restaurantId),
                                   ),
