@@ -1,13 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stacked_services/stacked_services.dart';
-
 import 'app/app.locator.dart';
 import 'app/app.router.dart';
+import 'core/helper/firebase_helper.dart';
+import 'firebase_options.dart';
 
  void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseApi().initNotification();
+  runApp(const MyApp());
+
   await setupLocator();
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)

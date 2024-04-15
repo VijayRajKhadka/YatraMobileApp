@@ -6,8 +6,10 @@ import 'package:yatra/services/restaurant_services.dart';
 import 'package:yatra/services/trek_services.dart';
 import 'package:yatra/services/user_auth_services.dart';
 import 'package:yatra/ui/views/home_view/pages/map_screen/map_screen_view.dart';
+import 'package:yatra/ui/views/home_view/pages/recommendation_screen/recommendation_screen_view.dart';
 
 import '../services/place_services.dart';
+import '../services/recommendation_services.dart';
 import '../services/review_services.dart';
 import '../ui/views/home_view/home_view.dart';
 import '../ui/views/home_view/pages/place_detail_view/place_details_view.dart';
@@ -34,7 +36,9 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         MaterialRoute(page: RestaurantDetailView),
         MaterialRoute(page: TrekDetailsView),
         MaterialRoute(page: PlaceDetailView),
-        MaterialRoute(page: MapView)
+        MaterialRoute(page: MapView),
+        MaterialRoute(page: RecommendationView)
+
 
 
 
@@ -47,7 +51,8 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         Singleton(classType: TrekServices),
         Singleton(classType: RestaurantServices),
         Singleton(classType: PlaceServices),
-        Singleton(classType: ReviewServices)
+        Singleton(classType: ReviewServices),
+        Singleton(classType: RecommendationServices)
     ]
 )
 

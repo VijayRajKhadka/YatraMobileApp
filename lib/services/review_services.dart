@@ -1,7 +1,5 @@
-import 'dart:ffi';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yatra/model/review_model.dart'; // Assuming you have a ReviewModel defined
 import 'package:yatra/services/local_storage_service.dart';
 import '../app/app.locator.dart';
@@ -134,7 +132,6 @@ class ReviewServices {
     });
 
     try {
-      print('${ApiHelper.baseUrl}$endpoint');
       final response = await _dio
           .post('${ApiHelper.baseUrl}$endpoint',
           data:data,);
@@ -145,7 +142,6 @@ class ReviewServices {
         throw Exception('Failed to post rate data');
       }
     } catch (e) {
-      print(e.toString());
       throw Exception('Sorry,Failed to post rate data');
     }
 

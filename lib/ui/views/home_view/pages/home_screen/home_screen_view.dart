@@ -133,7 +133,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       SizedBox(
                         width: screenWidth * 0.35,
                         child: ElevatedButton(
-                          onPressed:(){},
+                          onPressed:viewModel.goToRecommendation,
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               foregroundColor: Colors.white,

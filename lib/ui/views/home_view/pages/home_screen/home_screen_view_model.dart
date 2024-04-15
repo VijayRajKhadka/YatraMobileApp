@@ -38,4 +38,7 @@ class HomeScreenViewModel extends BaseViewModel {
   goToRestaurantScreen(){
     navigationService.navigateToRestaurantView();
   }
+  goToRecommendation(){
+    navigationService.navigateToRecommendationView();
+}
 }
