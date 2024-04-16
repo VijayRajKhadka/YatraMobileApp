@@ -10,6 +10,7 @@ import 'package:yatra/ui/views/home_view/pages/recommendation_screen/recommendat
 
 import '../services/place_services.dart';
 import '../services/recommendation_services.dart';
+import '../services/register_services.dart';
 import '../services/review_services.dart';
 import '../ui/views/home_view/home_view.dart';
 import '../ui/views/home_view/pages/place_detail_view/place_details_view.dart';
@@ -52,7 +53,9 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         Singleton(classType: RestaurantServices),
         Singleton(classType: PlaceServices),
         Singleton(classType: ReviewServices),
-        Singleton(classType: RecommendationServices)
+        Singleton(classType: RecommendationServices),
+        Singleton(classType: RegisterService )
+
     ]
 )
 

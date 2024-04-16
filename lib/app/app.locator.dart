@@ -13,6 +13,7 @@ import '../services/authentication_services.dart';
 import '../services/local_storage_service.dart';
 import '../services/place_services.dart';
 import '../services/recommendation_services.dart';
+import '../services/register_services.dart';
 import '../services/restaurant_services.dart';
 import '../services/review_services.dart';
 import '../services/trek_services.dart';
@@ -38,4 +39,5 @@ Future<void> setupLocator({
   locator.registerSingleton(PlaceServices());
   locator.registerSingleton(ReviewServices());
   locator.registerSingleton(RecommendationServices());
+  locator.registerSingleton(RegisterService());
 }

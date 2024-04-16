@@ -44,4 +44,8 @@ class LoginViewModel extends BaseViewModel {
     hidePassword = !hidePassword;
     rebuildUi();
   }
+
+  goToLogin(){
+    _navigationService.navigateToRegisterView();
+  }
 }

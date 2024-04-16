@@ -67,7 +67,7 @@ dependencies:
   latlng: ^2.0.7
   map: ^2.0.2
   url_launcher: ^6.2.5
-
+  image_picker: ^1.0.8
   firebase_core: ^2.29.0
   firebase_messaging: ^14.8.1
   awesome_notifications: ^0.9.3+1

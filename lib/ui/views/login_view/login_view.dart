@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:stacked/stacked.dart';
 import '../../../core/helper/assets_helper.dart';
@@ -13,7 +16,6 @@ class LoginView extends StackedView<LoginViewModel> {
       BuildContext context, LoginViewModel viewModel, Widget? child) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-
 
     return Scaffold(
       body: Container(
@@ -38,7 +40,7 @@ class LoginView extends StackedView<LoginViewModel> {
                   height: screenHeight * 0.07,
                   child: TextField(
                     controller: viewModel.email,
-                    decoration:const InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email Address',
                       hintText: 'email',
@@ -52,14 +54,16 @@ class LoginView extends StackedView<LoginViewModel> {
                 child: SizedBox(
                   height: screenHeight * 0.07,
                   child: TextField(
-                    controller:  viewModel.password,
+                    controller: viewModel.password,
                     obscureText: viewModel.hidePassword,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       labelText: 'Password',
                       hintText: 'password',
                       suffixIcon: IconButton(
-                        icon:(viewModel.hidePassword)? const Icon(EvaIcons.eye_off_2_outline): const Icon(EvaIcons.eye_outline),
+                        icon: (viewModel.hidePassword)
+                            ? const Icon(EvaIcons.eye_off_2_outline)
+                            : const Icon(EvaIcons.eye_outline),
                         onPressed: () {
                           viewModel.showPassword();
                         },
@@ -85,6 +89,18 @@ class LoginView extends StackedView<LoginViewModel> {
                     "Login",
                     style: TextStyle(fontSize: 20),
                   ),
+                ),
+              ),
+               Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't Have Account?"),
+                    InkWell(
+                      onTap: viewModel.goToLogin,
+                        child: const Text(" Register Here", style: TextStyle(color: Colors.blueAccent),))
+                  ],
                 ),
               )
             ],
