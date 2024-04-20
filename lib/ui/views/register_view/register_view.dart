@@ -71,7 +71,7 @@ class RegisterView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('${viewModel.errorMsg ?? ''}',textAlign: TextAlign.center,style: TextStyle(color: Colors.redAccent),),
+                  child: Text(viewModel.errorMsg ?? '',textAlign: TextAlign.center,style: const TextStyle(color: Colors.redAccent),),
                 ),
                 TextFormField(
                   decoration: InputDecoration(
@@ -178,7 +178,7 @@ class RegisterView extends StatelessWidget {
                           child: const Text(" Login Here", style: TextStyle(color: Colors.blueAccent),))
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

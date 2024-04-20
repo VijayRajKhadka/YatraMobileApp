@@ -17,12 +17,13 @@ class HomeView extends StackedView<HomeViewModel> {
 
         bottomNavigationBar: BottomNavigationBar(
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
+            // BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+            // BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_today_outlined), label: "Events"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined), label: "Home"),
+
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
           ],
           selectedItemColor: Colors.blueAccent,

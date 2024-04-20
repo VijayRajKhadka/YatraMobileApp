@@ -7,6 +7,7 @@ import 'package:yatra/core/helper/assets_helper.dart';
 import 'package:yatra/services/authentication_services.dart';
 import 'package:yatra/services/local_storage_service.dart';
 import 'package:yatra/services/user_auth_services.dart';
+import 'package:yatra/ui/views/home_view/pages/home_screen/home_screen_view.dart';
 
 import '../../../app/app.locator.dart';
 
@@ -29,7 +30,7 @@ class LoginViewModel extends BaseViewModel {
         _localStorageService.setUserData(value.toJson());
         EasyLoading.dismiss();
         EasyLoading.showSuccess("Logged In Successfully");
-        _navigationService.replaceWithHomeView();
+        _navigationService.clearStackAndShowView(const HomeScreenView());
       }).onError((error, stackTrace) {
         EasyLoading.dismiss();
         EasyLoading.showError("Invalid Email or Password");

@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stacked/stacked.dart';
+import 'package:yatra/model/historical_place.dart';
+import 'package:yatra/ui/widgets/historical_place_card/historical_place_card_view.dart';
 import 'package:yatra/ui/widgets/shimmer_widget.dart';
 import '../../../../../model/place_model.dart';
 import '../../../../../model/restaurant_model.dart';
@@ -24,8 +26,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final trekProvider = ref.watch(viewModel.trekServices.trekProvider(''));
-        final restaurantProvider = ref.watch(viewModel.restaurantServices.restaurantProvider(''));
-        final placeProvider = ref.watch(viewModel.placeServices.placeProvider(''));
+        final restaurantProvider =
+            ref.watch(viewModel.restaurantServices.restaurantProvider(''));
+        final placeProvider =
+            ref.watch(viewModel.placeServices.placeProvider(''));
+        final histProvider =
+            ref.watch(viewModel.historicalPlaceServices.histProvider);
 
         return Scaffold(
           body: RefreshIndicator(
@@ -33,7 +39,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
               ref.refresh(viewModel.trekServices.trekProvider(''));
               ref.refresh(viewModel.restaurantServices.restaurantProvider(''));
               ref.refresh(viewModel.placeServices.placeProvider(''));
-
+              ref.refresh(viewModel.historicalPlaceServices.histProvider);
             },
             child: ListView(
               children: [
@@ -82,12 +88,6 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                               ),
                             ),
                             TopNavView(
-                              width: screenWidth * 0.28,
-                              icon: Icons.calendar_today_outlined,
-                              text: "Events",
-                              borderColor: Colors.lightBlueAccent,
-                            ),
-                            TopNavView(
                               width: screenWidth * 0.40,
                               icon: Icons.call,
                               text: "Travel Agency",
@@ -99,20 +99,49 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                     ],
                   ),
                 ),
-                Container(
-                  height: screenHeight * 0.35,
+                Padding(
+                  padding: const EdgeInsets.only( bottom: 10.0),
+                  child: Container(
+                    height: screenHeight * 0.35,
+                    color: const Color.fromRGBO(210, 245, 247, 1),
+                    child: histProvider.when(data: (List<HistoricalPlaceModel> data) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: ()=> viewModel.goToHistoricalDetails(data[index]),
+                            child: HistoricalPlaceCard(
+                                data[index].name,
+                                data[index].historicalPlaceImages[0].historicalPlaceImagePath,
+                                data[index].location,
+                            )
+                          );
+                        },
+                      );
+                    }, error: (Object error, StackTrace stackTrace) {
+                      return Center(
+                        child: Text("$error"),
+                      );
+                    }, loading: () {
+                      return ShimmerWidget(
+                          height: screenHeight * 0.3,
+                          width: screenWidth * 0.2,
+                          boxCount: 1);
+                    }),
+                  ),
                 ),
                 Stack(alignment: Alignment.center, children: [
-                  CachedNetworkImage(imageUrl:AssetsHelper
-                      .homeImg3,
+                  CachedNetworkImage(
+                      imageUrl: AssetsHelper.homeImg3,
                       width: screenWidth,
                       height: screenHeight * 0.50,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Image.asset(
-                        AssetsHelper.logo,
-                        width: screenWidth * 1,
-                        height: screenHeight * 0.50,
-                      )),
+                            AssetsHelper.logo,
+                            width: screenWidth * 1,
+                            height: screenHeight * 0.50,
+                          )),
                   Column(
                     children: [
                       const Text(
@@ -133,7 +162,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       SizedBox(
                         width: screenWidth * 0.35,
                         child: ElevatedButton(
-                          onPressed:viewModel.goToRecommendation,
+                          onPressed: viewModel.goToRecommendation,
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               foregroundColor: Colors.white,
@@ -151,8 +180,9 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 // Your existing widgets
                 Container(
                   color: Colors.grey,
-                  child:  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15.0, top: 8.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -167,9 +197,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: InkWell(
                               child: IconButton(
-                            icon:const Icon(Icons.arrow_forward_ios_outlined,size: 27,),
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 27,
+                            ),
                             color: Colors.white,
-                                onPressed:viewModel.goToTrekScreen,
+                            onPressed: viewModel.goToTrekScreen,
                           )),
                         )
                       ],
@@ -185,7 +218,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       itemCount: data.length > 5 ? 5 : data.length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap:()=> viewModel.goToTrek(data[index]),
+                          onTap: () => viewModel.goToTrek(data[index]),
                           child: HomePageCardView(
                               data[index].name,
                               data[index].trekImages[0].trekImagePath,
@@ -201,20 +234,23 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       child: Text("$error"),
                     );
                   }, loading: () {
-                    return ShimmerWidget(height: screenHeight*0.3, width: screenWidth*0.2, boxCount: 1);
+                    return ShimmerWidget(
+                        height: screenHeight * 0.3,
+                        width: screenWidth * 0.2,
+                        boxCount: 1);
                   }),
                 ),
                 Stack(alignment: Alignment.center, children: [
-                  CachedNetworkImage(imageUrl:AssetsHelper
-                      .homeImg2,
+                  CachedNetworkImage(
+                      imageUrl: AssetsHelper.homeImg2,
                       width: screenWidth,
                       height: screenHeight * 0.50,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Image.asset(
-                        AssetsHelper.logo,
-                        width: screenWidth * 1,
-                        height: screenHeight * 0.50,
-                      )),
+                            AssetsHelper.logo,
+                            width: screenWidth * 1,
+                            height: screenHeight * 0.50,
+                          )),
                   Column(
                     children: [
                       const Text(
@@ -235,7 +271,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       SizedBox(
                         width: screenWidth * 0.35,
                         child: ElevatedButton(
-                          onPressed: (){},
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               foregroundColor: Colors.white,
@@ -252,8 +288,9 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ]),
                 Container(
                   color: Colors.grey,
-                  child:  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15.0, top: 8.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -268,9 +305,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: InkWell(
                               child: IconButton(
-                            icon:const Icon(Icons.arrow_forward_ios_outlined,size: 27,),
-
-                            color: Colors.white, onPressed:viewModel.goToRestaurantScreen,
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 27,
+                            ),
+                            color: Colors.white,
+                            onPressed: viewModel.goToRestaurantScreen,
                           )),
                         )
                       ],
@@ -287,10 +327,12 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       itemCount: data.length > 5 ? 5 : data.length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap:()=> viewModel.goToRestaurant(data[index]),
+                          onTap: () => viewModel.goToRestaurant(data[index]),
                           child: HomePageCardView(
                               data[index].name,
-                              data[index].restaurantImages[0].restaurantImagePath,
+                              data[index]
+                                  .restaurantImages[0]
+                                  .restaurantImagePath,
                               data[index].avgRating,
                               data[index].location,
                               data[index].category),
@@ -303,21 +345,23 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       child: Text("$error"),
                     );
                   }, loading: () {
-                    return ShimmerWidget(height: screenHeight*0.3, width: screenWidth*0.2, boxCount: 1);
-
+                    return ShimmerWidget(
+                        height: screenHeight * 0.3,
+                        width: screenWidth * 0.2,
+                        boxCount: 1);
                   }),
                 ),
                 Stack(alignment: Alignment.center, children: [
-                  CachedNetworkImage(imageUrl:AssetsHelper
-                      .homeImg1,
-                       width: screenWidth,
-                        height: screenHeight * 0.50,
+                  CachedNetworkImage(
+                      imageUrl: AssetsHelper.homeImg1,
+                      width: screenWidth,
+                      height: screenHeight * 0.50,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Image.asset(
-                        AssetsHelper.logo,
-                        width: screenWidth * 1,
-                        height: screenHeight * 0.50,
-                      )),
+                            AssetsHelper.logo,
+                            width: screenWidth * 1,
+                            height: screenHeight * 0.50,
+                          )),
                   Column(
                     children: [
                       const Text(
@@ -338,7 +382,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       SizedBox(
                         width: screenWidth * 0.35,
                         child: ElevatedButton(
-                          onPressed: (){},
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               foregroundColor: Colors.white,
@@ -355,8 +399,9 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ]),
                 Container(
                   color: Colors.grey,
-                  child:  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, top: 8.0, bottom: 8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15.0, top: 8.0, bottom: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -371,10 +416,13 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: InkWell(
                               child: IconButton(
-                                icon:const Icon(Icons.arrow_forward_ios_outlined,size: 27,),
-
-                                color: Colors.white, onPressed:viewModel.goToPlaceScreen,
-                              )),
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 27,
+                            ),
+                            color: Colors.white,
+                            onPressed: viewModel.goToPlaceScreen,
+                          )),
                         )
                       ],
                     ),
@@ -383,29 +431,31 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 Container(
                   color: Colors.black12,
                   height: screenHeight * 0.35,
-                  child: placeProvider.when(
-                      data: (List<PlaceModel> data) {
-                        return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: data.length > 5 ? 5 : data.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap:()=> viewModel.goToPlace(data[index]),
-                              child: HomePageCardView(
-                                  data[index].name,
-                                  data[index].placeImages[0].placeImagePath,
-                                  data[index].avgRating,
-                                  data[index].location,
-                                  data[index].category),
-                            );
-                          },
+                  child: placeProvider.when(data: (List<PlaceModel> data) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: data.length > 5 ? 5 : data.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () => viewModel.goToPlace(data[index]),
+                          child: HomePageCardView(
+                              data[index].name,
+                              data[index].placeImages[0].placeImagePath,
+                              data[index].avgRating,
+                              data[index].location,
+                              data[index].category),
                         );
-                      }, error: (Object error, StackTrace stackTrace) {
+                      },
+                    );
+                  }, error: (Object error, StackTrace stackTrace) {
                     return Center(
                       child: Text("$error"),
                     );
                   }, loading: () {
-                    return ShimmerWidget(height: screenHeight*0.3, width: screenWidth*0.4, boxCount: 1);
+                    return ShimmerWidget(
+                        height: screenHeight * 0.3,
+                        width: screenWidth * 0.4,
+                        boxCount: 1);
                   }),
                 ),
               ],

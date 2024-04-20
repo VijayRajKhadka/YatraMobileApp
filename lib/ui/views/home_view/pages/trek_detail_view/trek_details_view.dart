@@ -338,21 +338,34 @@ class TrekDetailsView extends StackedView<TrekDetailsViewModel> {
                                     ),
                                     Expanded(
                                       flex: 3,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: InkWell(
-                                          onTap: () => viewModel.showMap(
-                                              context, data.mapUrl),
-                                          child: SizedBox(
-                                            width: screenWidth * 0.2,
-                                            height: screenHeight * 0.3,
-                                            child: Image.network(
-                                              data.mapUrl,
-                                              fit: BoxFit.cover,
+                                      child: InkWell(
+                                        onTap: () => viewModel.showMap(
+                                            context, data.mapUrl),
+                                        child: Stack(
+                                          children: [
+                                            SizedBox(
+                                              child: Image.network(
+                                                data.mapUrl,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                          ),
+                                            Positioned.fill(
+                                              child: Center(
+                                                child: Container(
+                                                  width: screenWidth,
+                                                  height: screenHeight,
+                                                  color: Colors.black.withOpacity(0.2),
+                                                  child: const Icon(
+                                                    Icons.zoom_in,
+                                                    color: Colors.white,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
+
                                       ),
                                     ),
                                   ],

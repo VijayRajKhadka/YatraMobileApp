@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:stacked/stacked.dart';
-import 'package:yatra/ui/views/home_view/pages/restaurant_details_view/restaurant_details_view_model.dart';
+import 'package:yatra/ui/views/home_view/pages/restaurant_details_screen/restaurant_details_view_model.dart';
 import '../../../../../core/helper/strings_helper.dart';
 import '../../../../../model/restaurant_model.dart';
 import '../../../../../core/helper/assets_helper.dart';
@@ -341,7 +341,7 @@ class RestaurantDetailView extends StackedView<RestaurantDetailsViewModel> {
                                                 children: [
                                                   const Icon(
                                                     Icons
-                                                        .monetization_on_outlined,
+                                                        .attach_money_outlined,
                                                     size: 20,
                                                     color: CupertinoColors
                                                         .activeGreen,

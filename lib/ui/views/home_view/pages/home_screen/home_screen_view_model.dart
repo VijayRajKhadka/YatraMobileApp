@@ -1,7 +1,9 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:yatra/app/app.router.dart';
+import 'package:yatra/model/historical_place.dart';
 import 'package:yatra/model/trek_model.dart';
+import 'package:yatra/services/historical_place_services.dart';
 import 'package:yatra/services/restaurant_services.dart';
 import 'package:yatra/services/trek_services.dart';
 
@@ -15,6 +17,7 @@ class HomeScreenViewModel extends BaseViewModel {
   final NavigationService navigationService = locator<NavigationService>();
   final RestaurantServices restaurantServices = locator<RestaurantServices>();
   final PlaceServices placeServices = locator<PlaceServices>();
+  final HistoricalPlaceServices historicalPlaceServices = locator<HistoricalPlaceServices>();
 
   goToTrek(TrekModel trekModel) {
     navigationService.navigateToTrekDetailsView(trekModel: trekModel);
@@ -24,6 +27,9 @@ class HomeScreenViewModel extends BaseViewModel {
   }
   goToRestaurant(RestaurantModel restaurantModel){
     navigationService.navigateToRestaurantDetailView(restaurantModel: restaurantModel);
+  }
+  goToHistoricalDetails(HistoricalPlaceModel historicalPlaceModel){
+    navigationService.navigateToHistoricalDetailsView(historicalPlaceModel: historicalPlaceModel);
   }
 
   gotToHomeScreen(){
@@ -40,5 +46,8 @@ class HomeScreenViewModel extends BaseViewModel {
   }
   goToRecommendation(){
     navigationService.navigateToRecommendationView();
-}
+  }
+  goToEventsScreen(){
+    navigationService.navigateToEventScreenView();
+  }
 }
