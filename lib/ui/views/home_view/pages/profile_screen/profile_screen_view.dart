@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:stacked/stacked.dart';
+import 'package:yatra/core/helper/date_time_helper.dart';
 import '../../../../../core/helper/assets_helper.dart';
 import '../../../../../services/local_storage_service.dart';
 import '../../../../../app/app.locator.dart';
@@ -31,8 +33,8 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
               EasyLoading.show(
                 indicator: Image.asset(
                   AssetsHelper.loader,
-                  width: screenWidth*0.07,
-                  height: screenHeight*0.07,
+                  width: screenWidth * 0.07,
+                  height: screenHeight * 0.07,
                 ),
               );
               return const Center();
@@ -49,15 +51,17 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                   SizedBox(
                     height: screenHeight * 0.2,
                     width: screenWidth,
-                    child: CachedNetworkImage(placeholder: (context, url) => Image.asset(
-                      AssetsHelper.logo,
-                      width: screenWidth * 1,
-                      height: screenHeight * 0.18,
-                    ),
+                    child: CachedNetworkImage(
+                      placeholder: (context, url) => Image.asset(
+                        AssetsHelper.logo,
+                        width: screenWidth * 1,
+                        height: screenHeight * 0.18,
+                      ),
                       imageUrl: user.profileUrl,
                       width: screenWidth * 1,
                       height: screenHeight * 0.18,
-                      fit: BoxFit.cover,),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Positioned.fill(
                     top: screenHeight * 0.17,
@@ -73,8 +77,21 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                       ),
                       child: Column(
                         children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('USER PROFILE', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+                          ),
                           Padding(
-                            padding: const EdgeInsets.all(30.0),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                'Joined yatra ${DateTimeHelper.timeAgo(user.createdAt)}',
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
                             child: Row(
                               children: [
                                 SizedBox(
@@ -90,14 +107,17 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(70),
-                                      child: CachedNetworkImage(placeholder: (context, url) => Image.asset(
-                                        AssetsHelper.userLogo,
-                                        width: screenWidth * 1,
-                                        height: screenHeight * 0.18,
+                                      child: CachedNetworkImage(
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                          AssetsHelper.userLogo,
+                                          width: screenWidth * 1,
+                                          height: screenHeight * 0.18,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        imageUrl: user.profileUrl,
                                         fit: BoxFit.cover,
                                       ),
-                                        imageUrl: user.profileUrl,
-                                        fit: BoxFit.cover,),
                                     ),
                                   ),
                                 ),
@@ -115,7 +135,21 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                                       ),
                                       Text(
                                         '- ${user.email}',
-                                        style: const TextStyle(fontSize: 17),
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.blueGrey),
+                                      ),
+                                      Text(
+                                        '- ${user.contact}',
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.blueGrey),
+                                      ),
+                                      Text(
+                                        '- last updated profile ${DateTimeHelper.timeAgo(user.updatedAt)}',
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.blueGrey),
                                       ),
                                     ],
                                   ),
@@ -123,8 +157,10 @@ class ProfileScreenView extends StackedView<ProfileScreenViewModel> {
                               ],
                             ),
                           ),
+
                           SizedBox(
-                            width: screenWidth*0.8,
+
+                            width: screenWidth * 0.8,
                             child: ElevatedButton(
                               onPressed: viewModel.logout,
                               style: ElevatedButton.styleFrom(

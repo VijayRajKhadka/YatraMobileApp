@@ -31,111 +31,104 @@ class EventScreenView extends StackedView<EventScreenViewModel> {
                       Tab(text: 'Restaurant Events'),
                     ],
                   ),
-                  Expanded(
-                    child: Consumer(
-                      builder: (context, ref, child) {
-                        final travelEvent =
-                            ref.watch(viewModel.eventServices.travelEventProvider);
-                        final restEvent =
-                        ref.watch(viewModel.eventServices.restaurantventProvider);
-                        return RefreshIndicator(
-                          onRefresh: () async {
-                            await Future.delayed(const Duration(milliseconds: 2000));
-                            ref.refresh(viewModel.eventServices.travelEventProvider);
-                          },
-                          child: SizedBox(
-                            height: screenHeight*0.9,
-                            child: TabBarView(
-                              children: [
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: travelEvent.when(
-                                    data: (List<TravelEventModel> data) {
-                                      return SizedBox(
-                                        height: screenHeight*0.9,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: data.length,
-                                          itemBuilder: (context, index) {
-                                            return InkWell(
-                                              child: EventCard(
-                                                name: data[index].name,
-                                                contactNo: data[index].contactNo,
-                                                location: data[index].location,
-                                                startTime: data[index].startTime,
-                                                endTime: data[index].endTime,
-                                                eventImagePath: data[index].eventImagePath,
-                                                title: data[index].title,
-                                                body: data[index].body,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    error: (Object error, StackTrace stackTrace) {
-                                      print(stackTrace);
-                                      return Center(
-                                        child: Text("$error"),
-                                      );
-                                    },
-                                    loading: () {
-                                      return ShimmerWidget(
-                                        height: screenHeight * 0.3,
-                                        width: screenWidth * 0.9,
-                                        boxCount: 5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: restEvent.when(
-                                    data: (List<RestaurantEventModel> data) {
-                                      return SizedBox(
-                                        height: screenHeight*0.9,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: data.length,
-                                          itemBuilder: (context, index) {
-                                            return InkWell(
-                                              child: EventCard(
-                                                name: data[index].name,
-                                                contactNo:data[index].openTime,
-                                                location: data[index].location,
-                                                startTime: data[index].startTime,
-                                                endTime: data[index].endTime,
-                                                eventImagePath: data[index].eventImagePath,
-                                                title: data[index].title,
-                                                body: data[index].body,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    error: (Object error, StackTrace stackTrace) {
-                                      print(stackTrace);
-                                      return Center(
-                                        child: Text("$error"),
-                                      );
-                                    },
-                                    loading: () {
-                                      return ShimmerWidget(
-                                        height: screenHeight * 0.3,
-                                        width: screenWidth * 0.9,
-                                        boxCount: 5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final travelEvent =
+                          ref.watch(viewModel.eventServices.travelEventProvider);
+                      final restEvent =
+                      ref.watch(viewModel.eventServices.restaurantventProvider);
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          await Future.delayed(const Duration(milliseconds: 2000));
+                          ref.refresh(viewModel.eventServices.travelEventProvider);
+                          ref.refresh(viewModel.eventServices.restaurantventProvider);
+                        },
+                        child: SizedBox(
+                          height: screenHeight*0.8,
+                          child: TabBarView(
+                            children: [
+                              travelEvent.when(
+                                data: (List<TravelEventModel> data) {
+                                  return SizedBox(
+                                    height: screenHeight*0.9,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          child: EventCard(
+                                            name: data[index].name,
+                                            contactNo: data[index].contactNo,
+                                            location: data[index].location,
+                                            startTime: data[index].startTime,
+                                            endTime: data[index].endTime,
+                                            eventImagePath: data[index].eventImagePath,
+                                            title: data[index].title,
+                                            body: data[index].body,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                error: (Object error, StackTrace stackTrace) {
+                                  print(stackTrace);
+                                  return Center(
+                                    child: Text("$error"),
+                                  );
+                                },
+                                loading: () {
+                                  return ShimmerWidget(
+                                    height: screenHeight * 0.3,
+                                    width: screenWidth * 0.9,
+                                    boxCount: 5,
+                                  );
+                                },
+                              ),
+                              restEvent.when(
+                                data: (List<RestaurantEventModel> data) {
+                                  return SizedBox(
+                                    height: screenHeight*0.9,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          child: EventCard(
+                                            name: data[index].name,
+                                            contactNo:data[index].openTime,
+                                            location: data[index].location,
+                                            startTime: data[index].startTime,
+                                            endTime: data[index].endTime,
+                                            eventImagePath: data[index].eventImagePath,
+                                            title: data[index].title,
+                                            body: data[index].body,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                error: (Object error, StackTrace stackTrace) {
+                                  print(stackTrace);
+                                  return Center(
+                                    child: Text("$error"),
+                                  );
+                                },
+                                loading: () {
+                                  return ShimmerWidget(
+                                    height: screenHeight * 0.3,
+                                    width: screenWidth * 0.9,
+                                    boxCount: 5,
+                                  );
+                                },
+                              ),
+                            ],
                           ),
+                        ),
 
-                        );
-                      },
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),

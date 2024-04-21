@@ -23,14 +23,14 @@ class LoginViewModel extends BaseViewModel {
       locator<LocalStorageService>();
 
   loginUser() {
-    EasyLoading.show(status: "Loading...",maskType: EasyLoadingMaskType.black, indicator: Image.asset(AssetsHelper.loader, width: 50, height: 50));
+    EasyLoading.show(status: "Logging...",maskType: EasyLoadingMaskType.black, indicator: Image.asset(AssetsHelper.loader, width: 50, height: 50));
     _authService.login(email.text, password.text).then((value) {
       _localStorageService.setToken(value.token);
       _userAuthServices.getUserInfo(value.token).then((value) {
         _localStorageService.setUserData(value.toJson());
         EasyLoading.dismiss();
         EasyLoading.showSuccess("Logged In Successfully");
-        _navigationService.clearStackAndShowView(const HomeScreenView());
+        _navigationService.replaceWithHomeView();
       }).onError((error, stackTrace) {
         EasyLoading.dismiss();
         EasyLoading.showError("Invalid Email or Password");

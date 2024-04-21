@@ -8,12 +8,14 @@ import 'package:yatra/services/trek_services.dart';
 import 'package:yatra/services/user_auth_services.dart';
 import 'package:yatra/ui/views/home_view/pages/map_screen/map_screen_view.dart';
 import 'package:yatra/ui/views/home_view/pages/recommendation_screen/recommendation_screen_view.dart';
+import 'package:yatra/ui/views/home_view/pages/travel_agency_screen/travel_agency_view.dart';
 
 import '../services/event_services.dart';
 import '../services/place_services.dart';
 import '../services/recommendation_services.dart';
 import '../services/register_services.dart';
 import '../services/review_services.dart';
+import '../services/travel_agency_services.dart';
 import '../ui/views/home_view/home_view.dart';
 import '../ui/views/home_view/pages/event_screen/event_screen_view.dart';
 import '../ui/views/home_view/pages/historical_detail_screen/historical_details_view.dart';
@@ -21,6 +23,7 @@ import '../ui/views/home_view/pages/place_detail_view/place_details_view.dart';
 import '../ui/views/home_view/pages/place_screen/place_screen_view.dart';
 import '../ui/views/home_view/pages/restaurant_details_screen/restaurant_details_view.dart';
 import '../ui/views/home_view/pages/restaurant_screen/restaurant_screen_view.dart';
+import '../ui/views/home_view/pages/travel_agency_screen/travel_agency_detail_view.dart';
 import '../ui/views/home_view/pages/trek_detail_view/trek_details_view.dart';
 import '../ui/views/home_view/pages/trek_screen/trek_screen_view.dart';
 import '../ui/views/journey_view/journey_view.dart';
@@ -46,7 +49,9 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         MaterialRoute(page: RecommendationView),
         MaterialRoute(page: HistoricalDetailsView),
         MaterialRoute(page: JourneyView),
-        MaterialRoute(page: EventScreenView)
+        MaterialRoute(page: EventScreenView),
+        MaterialRoute(page: TravelAgencyView),
+        MaterialRoute(page: TravelAgencyDetailView),
 
 
 
@@ -65,6 +70,7 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         Singleton(classType: RegisterService ),
         Singleton(classType: HistoricalPlaceServices ),
         Singleton(classType: EventServices ),
+        Singleton(classType: TravelAgencyServices ),
 
     ]
 )

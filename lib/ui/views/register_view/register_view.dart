@@ -100,6 +100,7 @@ class RegisterView extends StatelessWidget {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Contact',
+                    hintText: 'should be 10 digit',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -120,6 +121,7 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                     labelText: 'Password',
+                    hintText: 'must have number and special character',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -142,6 +144,7 @@ class RegisterView extends StatelessWidget {
                       },
                     ),
                     labelText: 'Retype Password',
+                    hintText: 'should match password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),

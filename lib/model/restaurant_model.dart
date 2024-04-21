@@ -6,9 +6,11 @@ class RestaurantModel {
   final String category;
   final String createdAt;
   final double avgRating;
+  final String? pan;
   final List<RestaurantImageModel> restaurantImages;
 
-  RestaurantModel({
+  RestaurantModel( {
+    required this.pan,
     required this.restaurantId,
     required this.name,
     required this.description,
@@ -25,6 +27,7 @@ class RestaurantModel {
       name: json['name'],
       description: json['description'],
       location: json['location'],
+      pan: json['pan'],
       category: json['category'],
       createdAt: json['created_at'],
       avgRating: json['avg_rating'].toDouble(),

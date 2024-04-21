@@ -50,4 +50,7 @@ class HomeScreenViewModel extends BaseViewModel {
   goToEventsScreen(){
     navigationService.navigateToEventScreenView();
   }
+  goToTravelAgency(){
+    navigationService.navigateToTravelAgencyView();
+  }
 }

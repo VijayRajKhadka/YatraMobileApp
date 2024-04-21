@@ -47,8 +47,11 @@ class EventCard extends StackedView<EventCardModel> {
             SizedBox(
               width: screenWidth * 0.3,
               height: screenHeight * 0.13,
-              child: Image.network(
-                eventImagePath,
+              child: CachedNetworkImage(
+                placeholder: (context, url) => Image.asset(
+                  AssetsHelper.logo,
+                ),
+                imageUrl: eventImagePath,
                 fit: BoxFit.cover,
               ),
             ),
@@ -61,11 +64,11 @@ class EventCard extends StackedView<EventCardModel> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Ends: ${DateTimeHelper.timeAfter(DateTime.parse(endTime).add(const Duration(hours: 6)).toString())}',
+                        'Ends: ${DateTimeHelper.timeAfter(DateTime.parse(endTime).toString())}',
                         style: const TextStyle(fontSize: 10, color: Colors.red),
                       ),
                       Text(
-                        'Posted: ${DateTimeHelper.timeAgo(DateTime.parse(startTime).add(const Duration(hours: 6)).toString())}',
+                        'Posted: ${DateTimeHelper.timeAgo(DateTime.parse(startTime).toString())}',
                         style: const TextStyle(fontSize: 10),
                       ),
                     ],

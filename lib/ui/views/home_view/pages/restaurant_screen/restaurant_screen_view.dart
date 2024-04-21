@@ -116,6 +116,7 @@ class RestaurantView extends StackedView<RestaurantScreenViewModel> {
                         return InkWell(
                           onTap: () => viewModel.goToRestaurant(restaurantModel),
                           child: TrekPageCardView(
+                            pan: restaurantModel.pan,
                             name: restaurantModel.name,
                             imagePath: restaurantModel.restaurantImages[0].restaurantImagePath,
                             rating: restaurantModel.avgRating,

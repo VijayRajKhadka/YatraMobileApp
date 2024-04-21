@@ -88,6 +88,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                               ),
                             ),
                             TopNavView(
+                              onTap: viewModel.goToTravelAgency,
                               width: screenWidth * 0.40,
                               icon: Icons.call,
                               text: "Travel Agency",
@@ -126,8 +127,9 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                     }, loading: () {
                       return ShimmerWidget(
                           height: screenHeight * 0.3,
-                          width: screenWidth * 0.2,
-                          boxCount: 1);
+                          width: screenWidth * 0.9,
+                          boxCount: 1,
+                      );
                     }),
                   ),
                 ),
@@ -236,7 +238,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                   }, loading: () {
                     return ShimmerWidget(
                         height: screenHeight * 0.3,
-                        width: screenWidth * 0.2,
+                        width: screenWidth * 0.9,
                         boxCount: 1);
                   }),
                 ),
@@ -347,7 +349,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                   }, loading: () {
                     return ShimmerWidget(
                         height: screenHeight * 0.3,
-                        width: screenWidth * 0.2,
+                        width: screenWidth * 0.9,
                         boxCount: 1);
                   }),
                 ),
@@ -454,7 +456,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                   }, loading: () {
                     return ShimmerWidget(
                         height: screenHeight * 0.3,
-                        width: screenWidth * 0.4,
+                        width: screenWidth * 0.9,
                         boxCount: 1);
                   }),
                 ),

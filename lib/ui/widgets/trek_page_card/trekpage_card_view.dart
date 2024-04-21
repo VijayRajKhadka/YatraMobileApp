@@ -10,13 +10,14 @@ class TrekPageCardView extends StatelessWidget {
   final double rating;
   final String location;
   final String category;
+  final String? pan;
 
   const TrekPageCardView({super.key,
       required this.name,
       required this.imagePath,
       required this.rating,
       required this.location,
-      required this.category,
+      required this.category, this.pan,
 
       });
 
@@ -51,7 +52,7 @@ class TrekPageCardView extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5), // Overlay color
+                  color: Colors.black.withOpacity(0.6), // Overlay color
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
@@ -60,15 +61,23 @@ class TrekPageCardView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (pan != null) // Show the icon only if PAN is not null
+                          Icon(Icons.verified, color: Colors.blue),
+                      ],
                     ),
                     SizedBox(height: 4),
                     Row(

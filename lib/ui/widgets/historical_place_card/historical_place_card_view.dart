@@ -40,7 +40,7 @@ class HistoricalPlaceCard extends StackedView<HomePageCardViewModel> {
                   AssetsHelper.logo,
                   width: double.infinity,
                   height: double.infinity,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               Positioned(
