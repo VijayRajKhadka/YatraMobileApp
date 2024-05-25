@@ -26,104 +26,110 @@ class TravelAgencyView extends StackedView<TravelAgencyViewModel> {
             ref.watch(viewModel.travelAgencyServices.travelAgencyProvider);
         final restEvent =
             ref.watch(viewModel.travelAgencyServices.travelAgencyProvider);
-        return RefreshIndicator(
-          onRefresh: () async {
-            await Future.delayed(const Duration(milliseconds: 2000));
-            ref.refresh(viewModel.travelAgencyServices.travelAgencyProvider);
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text('TRAVEL AGENCY'),
-            ),
-            body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: travelAgency.when(
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('TRAVEL AGENCY'),
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(milliseconds: 2000));
+              ref.refresh(viewModel.travelAgencyServices.travelAgencyProvider);
+            },
+            child: travelAgency.when(
                 data: (List<TravelAgency> data) {
-                  return SizedBox(
-                    height: screenHeight * 0.9,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: screenHeight + 0.9,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: ()=> viewModel.showAgency(data[index]),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: screenWidth * 0.3,
-                                        height: screenHeight * 0.13,
-                                        color: Colors.grey, // Placeholder color
-                                        child: CachedNetworkImage(
-                                          imageUrl: data[index].agencyImageUrl,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          placeholder: (context, url) =>
-                                              Image.asset(
-                                            AssetsHelper.logo,
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.topRight,
-                                                child: Text('Joined '+
-                                                    DateTimeHelper.timeAgo(
-                                                        data[index]
-                                                            .createdAt
-                                                            .toString()), style: TextStyle(fontSize: 10),)),
-                                            Text(
-                                              data[index].name,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 19,
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SizedBox(
+                      height: screenHeight*2,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            height: screenHeight + 0.9,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: InkWell(
+                                      onTap: ()=> viewModel.showAgency(data[index]),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: screenWidth * 0.3,
+                                            height: screenHeight * 0.13,
+                                            color: Colors.grey, // Placeholder color
+                                            child: CachedNetworkImage(
+                                              imageUrl: data[index].agencyImageUrl,
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                              placeholder: (context, url) =>
+                                                  Image.asset(
+                                                AssetsHelper.logo,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
-                                            const SizedBox(height: 8),
-                                            Row(
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                const Icon(Icons.local_post_office_outlined, size: 16,),
-                                                Text(' ${data[index].email}'),
-                                              ],
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                    child: Text('Joined '+
+                                                        DateTimeHelper.timeAgo(
+                                                            data[index]
+                                                                .createdAt
+                                                                .toString()), style: TextStyle(fontSize: 10),)),
+                                                Text(
+                                                  data[index].name,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 19,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 8),
+                                                Row(
+                                                  children: [
+                                                    const Icon(Icons.local_post_office_outlined, size: 16,),
+                                                    Text(' ${data[index].email}'),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Icon(Icons.phone_in_talk_outlined, size: 16,),
+                                                    Text(' ${data[index].contactNo}'),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Icon(Icons.location_on_outlined, size: 16,),
+                                                    Text(' ${data[index].location}'),
+                                                  ],
+                                                ),                                        ],
                                             ),
-                                            Row(
-                                              children: [
-                                                const Icon(Icons.phone_in_talk_outlined, size: 16,),
-                                                Text(' ${data[index].contactNo}'),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Icon(Icons.location_on_outlined, size: 16,),
-                                                Text(' ${data[index].location}'),
-                                              ],
-                                            ),                                        ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
+
+                                    ),
+                                  );
+
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   );
                 },
@@ -141,7 +147,7 @@ class TravelAgencyView extends StackedView<TravelAgencyViewModel> {
                 },
               ),
             ),
-          ),
+
         );
       },
     );

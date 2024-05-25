@@ -70,7 +70,7 @@ class _SliderDialogState extends State<SliderDialog> {
       }
     }).onError((error, stackTrace) {
       print(error.toString());
-      EasyLoading.showToast("Pheri Hal");
+      EasyLoading.showToast("You have already Rated");
     });
 
   }

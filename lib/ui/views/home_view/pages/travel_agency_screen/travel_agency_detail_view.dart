@@ -169,14 +169,17 @@ class TravelAgencyDetailView extends StackedView<TravelAgencyViewModel> {
                                       ),
                                       const SizedBox(height: 8),
 
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.perm_contact_cal_outlined,
-                                            size: 16,
-                                          ),
-                                          Text(' ${guide.contact}'),
-                                        ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 8.0),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.perm_contact_cal_outlined,
+                                              size: 16,
+                                            ),
+                                            Text(' ${guide.contact}'),
+                                          ],
+                                        ),
                                       ),
                                       Text(
                                         guide.experience,

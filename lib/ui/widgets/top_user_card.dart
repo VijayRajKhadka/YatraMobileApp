@@ -49,7 +49,12 @@ class TopUserCard extends StatelessWidget {
                         height: screenHeight*0.1,
                       ),
                       imageUrl: profileUrl,
-                      fit: BoxFit.cover, // Ensure the image is cropped to fit within the circular boundary
+                      fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Image.asset(
+                        AssetsHelper.userLogo,  // Update with your actual error image path
+                        width: screenHeight * 0.1,
+                        height: screenHeight * 0.1,
+                      ),// Ensure the image is cropped to fit within the circular boundary
                     ),
                   ),
                 ),
