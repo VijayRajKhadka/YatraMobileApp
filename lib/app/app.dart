@@ -4,10 +4,13 @@ import 'package:yatra/services/authentication_services.dart';
 import 'package:yatra/services/historical_place_services.dart';
 import 'package:yatra/services/local_storage_service.dart';
 import 'package:yatra/services/restaurant_services.dart';
+import 'package:yatra/services/top_contributers_services.dart';
 import 'package:yatra/services/trek_services.dart';
 import 'package:yatra/services/user_auth_services.dart';
+import 'package:yatra/ui/views/home_view/pages/add_screen/add_view.dart';
 import 'package:yatra/ui/views/home_view/pages/map_screen/map_screen_view.dart';
 import 'package:yatra/ui/views/home_view/pages/recommendation_screen/recommendation_screen_view.dart';
+import 'package:yatra/ui/views/home_view/pages/top_contributers_screen/top_contributers_view.dart';
 import 'package:yatra/ui/views/home_view/pages/travel_agency_screen/travel_agency_view.dart';
 
 import '../services/event_services.dart';
@@ -52,6 +55,8 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         MaterialRoute(page: EventScreenView),
         MaterialRoute(page: TravelAgencyView),
         MaterialRoute(page: TravelAgencyDetailView),
+        MaterialRoute(page: TopUsersView),
+        MaterialRoute(page: AddView),
 
 
 
@@ -71,6 +76,8 @@ import '../ui/views/splash_screen_view/splash_screen_view.dart';
         Singleton(classType: HistoricalPlaceServices ),
         Singleton(classType: EventServices ),
         Singleton(classType: TravelAgencyServices ),
+        Singleton(classType: TopUserServices),
+
 
     ]
 )

@@ -28,9 +28,21 @@ class LocalStorageService{
   getToken()  {
     String? token = _localStr.getString('userToken');
     return token;
-}
+  }
   deleteToken()async{
     await _localStr.remove('userToken');
+  }
+
+  setNotificationToken(String notificationToken)async {
+    await _localStr.setString('notificationToken', notificationToken);
+  }
+  getNotificationToken()  {
+    String? notificationToken = _localStr.getString('notificationToken');
+    if(notificationToken == null){
+    return true;
+    } else{
+      return false;
+    }
   }
 
   setUserData(Map<String,dynamic> userData) async{

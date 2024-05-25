@@ -15,13 +15,8 @@ class TravelAgencyServices {
   Future<List<TravelAgency>> getTravelAgency() async {
     try {
       final response = await _dio.get('${ApiHelper.baseUrl}travelAgency');
-      print('${ApiHelper.baseUrl}travelAgency');
-      print(response.data);
-
       if (response.statusCode == 200) {
-        // Check if 'data' exists in the response
         if (response.data.containsKey('data')) {
-          print(response.data);
           List<dynamic> data = response.data['data'];
           List<TravelAgency> resList = [];
           for (Map<String, dynamic> jsonData in data) {

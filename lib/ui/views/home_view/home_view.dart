@@ -12,33 +12,34 @@ class HomeView extends StackedView<HomeViewModel> {
 
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
-
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today_outlined), label: "Events"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.stacked_line_chart_rounded), label: "Ranking"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person), label: "Profile")
+        ],
 
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            // BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
-            // BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today_outlined), label: "Events"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
-
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
-          ],
-          selectedItemColor: Colors.blueAccent,
-          unselectedItemColor: Colors.grey,
-          currentIndex: viewModel.currentIndex,
-          onTap: (value) => viewModel.onChangeTab(value),
-        ),
-      body:PageView.builder(
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.grey,
+        currentIndex: viewModel.currentIndex,
+        onTap: (value) => viewModel.onChangeTab(value),
+      ),
+      body: PageView.builder(
         physics: const NeverScrollableScrollPhysics(),
         controller: viewModel.pageController,
         itemCount: viewModel.pages.length,
         itemBuilder: (context, index) {
-        return viewModel.pages[viewModel.currentIndex];
-      },),
-        );
+          return viewModel.pages[viewModel.currentIndex];
+        },
+      ),
+    );
   }
 
   @override

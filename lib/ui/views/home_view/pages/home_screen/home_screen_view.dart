@@ -213,7 +213,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ),
                 Container(
                   color: Colors.black12,
-                  height: screenHeight * 0.35,
+                  height: screenHeight * 0.36,
                   child: trekProvider.when(data: (List<TrekModel> data) {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -270,21 +270,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       SizedBox(
                         height: screenHeight * 0.02,
                       ),
-                      SizedBox(
-                        width: screenWidth * 0.35,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.all(15),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(
-                                      width: 1, color: Colors.white))),
-                          child: const Text("Explore"),
-                        ),
-                      )
+
                     ],
                   )
                 ]),
@@ -321,7 +307,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ),
                 Container(
                   color: Colors.black12,
-                  height: screenHeight * 0.35,
+                  height: screenHeight * 0.36,
                   child: restaurantProvider.when(
                       data: (List<RestaurantModel> data) {
                     return ListView.builder(
@@ -381,21 +367,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                       SizedBox(
                         height: screenHeight * 0.02,
                       ),
-                      SizedBox(
-                        width: screenWidth * 0.35,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.all(15),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  side: const BorderSide(
-                                      width: 1, color: Colors.white))),
-                          child: const Text("Explore"),
-                        ),
-                      )
+
                     ],
                   )
                 ]),
@@ -432,7 +404,7 @@ class HomeScreenView extends StackedView<HomeScreenViewModel> {
                 ),
                 Container(
                   color: Colors.black12,
-                  height: screenHeight * 0.35,
+                  height: screenHeight * 0.36,
                   child: placeProvider.when(data: (List<PlaceModel> data) {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,

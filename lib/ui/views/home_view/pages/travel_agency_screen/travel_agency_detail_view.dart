@@ -121,7 +121,7 @@ class TravelAgencyDetailView extends StackedView<TravelAgencyViewModel> {
                 Text("TRAVEL GUIDES", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 SizedBox(
                   width: screenWidth,
-                  height: screenHeight * 0.42,
+                  height: screenHeight * 0.41,
                   child: ListView.builder(
                     itemCount: travelAgency.travelGuides.length,
                     itemBuilder: (context, index) {

@@ -72,7 +72,6 @@ class EventScreenView extends StackedView<EventScreenViewModel> {
                                   );
                                 },
                                 error: (Object error, StackTrace stackTrace) {
-                                  print(stackTrace);
                                   return Center(
                                     child: Text("$error"),
                                   );
@@ -110,7 +109,6 @@ class EventScreenView extends StackedView<EventScreenViewModel> {
                                   );
                                 },
                                 error: (Object error, StackTrace stackTrace) {
-                                  print(stackTrace);
                                   return Center(
                                     child: Text("$error"),
                                   );

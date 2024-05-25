@@ -72,15 +72,20 @@ class HistoricalPlaceCard extends StackedView<HomePageCardViewModel> {
                           Row(
                             children: [
                               const Icon(Icons.location_on_outlined, color: Colors.blue,),
-                              Text(
-                                location,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
+                              Expanded(
+                                child: Text(
+                                  location,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis
+                                  ),
+                                  softWrap: true,
                                 ),
                               ),
                             ],
                           ),
+
                         ],
                       ),
                     ),

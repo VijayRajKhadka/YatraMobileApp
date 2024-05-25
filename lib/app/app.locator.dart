@@ -18,6 +18,7 @@ import '../services/recommendation_services.dart';
 import '../services/register_services.dart';
 import '../services/restaurant_services.dart';
 import '../services/review_services.dart';
+import '../services/top_contributers_services.dart';
 import '../services/travel_agency_services.dart';
 import '../services/trek_services.dart';
 import '../services/user_auth_services.dart';
@@ -46,4 +47,5 @@ Future<void> setupLocator({
   locator.registerSingleton(HistoricalPlaceServices());
   locator.registerSingleton(EventServices());
   locator.registerSingleton(TravelAgencyServices());
+  locator.registerSingleton(TopUserServices());
 }

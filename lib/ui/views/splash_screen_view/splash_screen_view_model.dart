@@ -13,9 +13,8 @@ class SplashScreenViewModel extends BaseViewModel{
   void onStartApp() async {
     await Future.delayed(const Duration(milliseconds: 4000));
 
-    _navigationService.navigateToOnBoardingView();
     if(await _localStorageService.getInitialAppRun()==null || await _localStorageService.getInitialAppRun()==true){
-      _navigationService.navigateToOnBoardingView();
+      _navigationService.replaceWithOnBoardingView();
       await _localStorageService.setInitialAppRun();
     }
     else{

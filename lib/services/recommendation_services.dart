@@ -14,9 +14,7 @@ class RecommendationServices {
         ApiHelper.mlUrl,
         data: {'budget': budget},
       );
-
       if (response.statusCode == 200) {
-        print(response.data);
         List<dynamic> data = response.data['prediction'];
         List<RecommendationTrek> trekList = [];
         for (var json in data) {

@@ -10,7 +10,9 @@ class RecommendationView extends StatelessWidget {
     return ViewModelBuilder<RecommendationViewModel>.reactive(
       viewModelBuilder: () => RecommendationViewModel(),
       builder: (context, viewModel, child) => Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          surfaceTintColor: Colors.white,
+        ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
@@ -86,6 +88,7 @@ class RecommendationView extends StatelessWidget {
                             'Cost: \$ ${trek.cost}',
                             style: const TextStyle(
                               fontSize: 16,
+                              color: Colors.green
                             ),
                           ),
                           Text(
